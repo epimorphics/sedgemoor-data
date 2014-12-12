@@ -1,0 +1,31 @@
+{
+  "name"         : "location",
+  "description"  : "Template for translating locations to RDF",
+
+  "type":  "Composite",
+  "bind": {
+    "$base": "http://data.sedgemoor.gov.uk/id/"
+  },
+  "prefixes": {
+    "rdf"        : "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs"       : "http://www.w3.org/2000/01/rdf-schema#",
+    "owl"        : "http://www.w3.org/2002/07/owl#",
+    "dcterms"    : "http://purl.org/dc/terms/",
+    "geo-sparql" : "http://www.opengis.net/def/geosparql/",
+    "geo"        : "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "xsd"        : "http://www.w3.org/2001/XMLSchema#"
+  },  
+  "templates" : [
+    {
+     "name"                  : "location",
+     "@id"                   : "<{$base}/location/{identifier}>",
+     "<rdf:type>"            : "<dcterms:Location>",
+     "<rdfs:label>"          : "{name}@en",
+     "<dcterms:description>" : "{description}@en",
+     "<owl:sameAs>"          : "<{os_reference}>",
+     "<geo-sparql:sfWithin>" : "<{os_located_within}>",
+     "<geo:lat>"             : "{lat}^^xsd:double",
+     "<geo:long>"             : "{long}^^xsd:double"
+     }
+   ]
+}
