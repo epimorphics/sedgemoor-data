@@ -22,10 +22,11 @@
      "<rdf:type>"            : "<dcterms:Location>",
      "<rdfs:label>"          : "{name}@en",
      "<dcterms:description>" : "{description}@en",
+     "<owl:sameAs>"          : "<{os_gazetteer}>",
      "<owl:sameAs>"          : "<{os_reference}>",
-     "<geo-sparql:sfWithin>" : "<{os_located_within}>",
+     "<geo-sparql:sfWithin>" : "<{empty(os_located_within) ? null : os_located_within}>",
      "<geo:lat>"             : "{lat}^^xsd:double",
-     "<geo:long>"             : "{long}^^xsd:double"
+     "<geo:long>"            : "{long}^^xsd:double"
      }
    ]
 }

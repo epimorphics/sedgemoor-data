@@ -1,0 +1,30 @@
+  name         : project
+  description  : Template for translating references to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    impact    : http://data.sedgemoor.gov.uk/def/impact/
+    project    : http://data.sedgemoor.gov.uk/def/project/
+    
+  templates : 
+   - name                       : project
+     "@id"                      : <{$base}project/{identifier}>
+     <rdf:type>                 : <project:Project>
+     <rdfs:label>               : "{name}@en"
+     <dcterms:description>      : "{description}@en"
+     <impact:mitigates>         : <{$base}impact/{mitigates}>
+     <project:hasSubProject>    : <{$base}project/{sub_project}>
+     <project:hasParentProject> : <{$base}project/{parent_project}>
+     
+     
+

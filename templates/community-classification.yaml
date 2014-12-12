@@ -1,0 +1,47 @@
+- name         : community_classification
+  description  : Template for translating community classifications to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/community-classification
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    skos       : http://www.w3.org/2004/02/skos/core#
+    community  : http://data.sedgemoor.gov.uk/def/community/
+    impact     : http://data.sedgemoor.gov.uk/def/impact/
+    project    : http://data.sedgemoor.gov.uk/def/project/
+  templates    : skos_hierarchy
+
+- name       : skos_hierarchy
+  type       : Hierarchy   
+  parentLink : <skos:broader>
+  childLink  : <skos:narrower>
+  topLink    : <skos:hasTopConcept>
+  invTopLink : <skos:topConceptOf>
+  0 : 
+    bind: 
+      notation: "{identifier_1}"
+    template:   skos_concept
+  1 : 
+    bind : 
+      notation : "{identifier_2}"
+    template   : skos_concept    
+  2 : 
+    bind : 
+      notation : "{identifier_3}"
+    template   : skos_concept
+
+- name       : skos_concept
+  "@id"      : <{$base}/{notation}>
+  <rdf:type> : <community:Classification>
+  <skos:prefLabel>  : "{name}@en"
+  <dcterms:description> : "{description}@en"
+  <skos:inScheme> : <{$dataset}>
+ 

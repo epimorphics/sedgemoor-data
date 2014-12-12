@@ -8,5 +8,6 @@ for FILEPATH in $1/csv/*.csv
 do
   FILE=$(basename $FILEPATH)
   ROOT=${FILE%.csv}  
-  java -jar lib/dclib-$DCLIB_VERSION-run.jar --debug templates/$ROOT.yaml $1/csv/$ROOT.csv > $1/rdf/$ROOT.ttl
+  echo converting $ROOT
+  java -jar lib/dclib-$DCLIB_VERSION-run.jar templates/$ROOT.yaml $1/csv/$ROOT.csv > $1/rdf/$ROOT.ttl
 done

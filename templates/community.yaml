@@ -1,0 +1,33 @@
+  name         : community
+  description  : Template for translating communities to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    community  : http://data.sedgemoor.gov.uk/def/community/
+    impact     : http://data.segemoor.gov.uk/def/impact/
+    locn       : http://www.w3.org/ns/locn#
+    
+  templates : 
+   - name                       : community
+     "@id"                      : <{$base}/community/{identifier}>
+     <rdf:type>                 : <community:Community>
+     <rdfs:label>               : "{name}@en"
+     <dcterms:description>      : "{description}@en"
+     <locn:location>            : <{$base}location/{location}>
+     <community:classification> : <community:community-classification/{classification}>
+     <impact:impactedBy>        : <{$base}impact/{impacted_by}>
+     <dcterms:isPartOf>         : <{$base}/community/{part_of}>
+     <dcterms:hasPart>          : <{$base}/community/{has_part}>
+     
+     
+

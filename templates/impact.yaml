@@ -1,0 +1,39 @@
+  name         : impact
+  description  : Template for translating impacts to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    impact     : http://data.sedgemoor.gov.uk/def/impact/
+    project    : http://data.sedgemoor.gov.uk/def/project/
+    wdrs       : http://www.w3.org/2007/05/powder-s#
+    
+  templates : 
+   - name                       : impact
+     "@id"                      : <{$base}project/{identifier}>
+     <rdf:type>                 : <impact:PredictedImpact>
+     <rdfs:label>               : "{name}@en"
+     <dcterms:description>      : "{description}@en"
+     <impact:impactOf>          : <{$base}project/{impact_of}>
+     <impact:impactOn>          : <{$base}impact/{impact_on}>
+     <impact:category>          : <{$base}impact-category/{impact_category}>
+     <wdrs:describedBy>         : <{ $row.bnode }>
+   - name                       : reference
+     "@id"                      : <{ $row.bnode }>
+     <dcterms:isPartOf>         : <{reference_uri}>
+     <dcterms:identifier>       : "{internal_reference}"
+     
+     
+     
+     
+     
+
