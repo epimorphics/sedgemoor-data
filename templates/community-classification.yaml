@@ -25,21 +25,80 @@
   childLink  : <skos:narrower>
   topLink    : <skos:hasTopConcept>
   invTopLink : <skos:topConceptOf>
+  
+#
+# Set up the hierarchy - count the '.' chars in the identifier to determine the level
+#
+
   0 : 
     bind: 
-      notation: "{identifier_1}"
-    template:   skos_concept
+      level    : |
+        { { 
+          if ( identifier.toString().contains('.') ) { 
+            return null ; 
+          } else { 
+            return identifier.toString() ; 
+          } 
+        } }
+    template   :   skos_concept
   1 : 
     bind : 
-      notation : "{identifier_2}"
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 2 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
     template   : skos_concept    
   2 : 
     bind : 
-      notation : "{identifier_3}"
-    template   : skos_concept
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 3 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  3 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 4 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  4 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 5 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  5 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 6 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept 
 
 - name       : skos_concept
-  "@id"      : <{$base}/{notation}>
+  "@id"      : <{$base}/{level}>
   <rdf:type> : <community:Classification>
   <skos:prefLabel>  : "{name}@en"
   <dcterms:description> : "{description}@en"
