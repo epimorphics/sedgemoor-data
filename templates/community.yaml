@@ -25,7 +25,6 @@
      <dcterms:description>      : "{description}@en"
      <locn:location>            : <{$base}location/{location}>
      <community:classification> : <community:community-classification/{classification}>
-     <impact:impactedBy>        : <{$base}impact/{impacted_by}>
      <dcterms:isPartOf>         : <{$base}/community/{part_of}>
      <dcterms:hasPart>          : <{$base}/community/{has_part}>
      

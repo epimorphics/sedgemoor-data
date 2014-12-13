@@ -24,7 +24,8 @@
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
      <impact:impactOf>          : <{$base}project/{impact_of}>
-     <impact:impactOn>          : <{$base}impact/{impact_on}>
+     <impact:impactOn>          : <{$base}community/{impact_on}>
+     ^<impact:impactedBy>       : <{$base}community/{impact_on}>
      <impact:category>          : <{$base}impact-category/{impact_category}>
      <wdrs:describedBy>         : <{ $row.bnode }>
    - name                       : reference
