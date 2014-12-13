@@ -18,8 +18,20 @@
     wdrs       : http://www.w3.org/2007/05/powder-s#
     
   templates : 
-   - name                       : impact
-     "@id"                      : <{$base}project/{identifier}>
+   - name                       : current_version
+     "@id"                      : <{{ if (version == null) { return "" ; } else { return null } }}{$base}impact/{identifier}>
+     <rdf:type>                 : <impact:PredictedImpact>
+     <rdfs:label>               : "{name}@en"
+     <dcterms:description>      : "{description}@en"
+     <impact:impactOf>          : <{$base}project/{impact_of}>
+     <impact:impactOn>          : <{$base}community/{impact_on}>
+     ^<impact:impactedBy>       : <{$base}community/{impact_on}>
+     <impact:category>          : <{$base}impact-category/{impact_category}>
+     <wdrs:describedBy>         : <{ $row.bnode }>
+   - name                       : version
+     "@id"                      : <{$base}impact/{identifier}/ver/{version}>
+     <dcterms:isVersionOf>      : <{$base}impact/{identifier}>
+     ^<dcterms:hasVersion>      : <{$base}impact/{identifier}>
      <rdf:type>                 : <impact:PredictedImpact>
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
