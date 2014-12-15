@@ -17,6 +17,7 @@
   templates : 
    - name                  : reference
      "@id"                 : <{uri}>
+     <rdfs:label>          : "{title}@en"
      <dcterms:title>       : "{title}@en"
      <dcterms:description> : "{description}@en"
      
