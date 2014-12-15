@@ -303,13 +303,102 @@ spec:project
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
             api:viewer          spec:projectViewer ;
             api:defaultViewer   spec:projectViewer;         
-            .
-            
+            . 
+           
 spec:projectViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*, hasSubProject.label, hasParentProject.label" ;
-            .       
+            api:properties    "*, hasSubProject.label, hasParentProject.label, proposal.label, resources.label, resourcedBy.label,describedBy.isPartOf.label,describedBy.identifier" ;
+            .    
+                       
+spec:api    api:endpoint       spec:proposals .
+spec:proposals
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/proposal";
+            api:name           "proposals";
+            rdfs:comment       "Lists proposals";
+            api:exampleRequestPath  "/doc/proposal";
+            api:selector [
+                api:where   "{ ?item  a project:Proposal }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:proposalViewer ;
+            api:defaultViewer   spec:proposalViewer;         
+            .
+
+spec:api    api:endpoint       spec:proposal .
+spec:proposal
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/proposal/{id}";
+            api:name           "proposal";
+            rdfs:comment       "Returns data for a proposal";
+            api:exampleRequestPath  "/doc/proposal/proposal-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/proposal/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:proposalViewer ;
+            api:defaultViewer   spec:proposalViewer;         
+            .
+            
+spec:proposalViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*, proposalStatus.label, describedBy.isPartOf.label, describedBy.identifier,proposedBy.label,proposedTo.label,requestsResourcesFrom.label" ;
+            .    
+                       
+spec:api    api:endpoint       spec:agents .
+spec:agents
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/agent";
+            api:name           "agents";
+            rdfs:comment       "Lists agents";
+            api:exampleRequestPath  "/doc/agent";
+            api:selector [
+                api:where   "{ ?item  a foaf:Agent }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:describeViewer;         
+            .
+
+spec:api    api:endpoint       spec:agent .
+spec:agent
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/agent/{id}";
+            api:name           "agent";
+            rdfs:comment       "Returns data for a proposal";
+            api:exampleRequestPath  "/doc/agent/agent-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/agent/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:describeViewer;         
+            .        
+                       
+spec:api    api:endpoint       spec:resource-sources .
+spec:resource-sources
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/resource-source";
+            api:name           "resource-sources";
+            rdfs:comment       "Lists resource-sources";
+            api:exampleRequestPath  "/doc/resource-source";
+            api:selector [
+                api:where   "{ ?item  a project:ResourceSource }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:describeViewer;         
+            .
+
+spec:api    api:endpoint       spec:resource-source .
+spec:resource-source
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/resource-source/{id}";
+            api:name           "resource-source";
+            rdfs:comment       "Returns data for a resource source";
+            api:exampleRequestPath  "/doc/resource-source/resource-source-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/resource-source/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:describeViewer;         
+            .     
 
             
 ###############################################################################
@@ -527,6 +616,12 @@ impact:category
   ; rdfs:range rdfs:Resource
   .
 
+impact:mitigates
+    a rdf:Property
+  ; api:label "mitigates"
+  ; rdfs:range rdfs:Resource
+  .
+
 ###############################################################################
 ## community
 ############################################################################### 
@@ -549,6 +644,65 @@ project:hasSubProject
 project:hasParentProject
     a          rdf:Property
   ; api:label  "hasParentProject"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:expectedStart
+    a          rdf:Property
+  ; api:label  "expectedStart"
+  .
+
+project:expectedEnd
+    a          rdf:Property
+  ; api:label  "expectedEnd"
+  .
+
+project:actualStart
+    a          rdf:Property
+  ; api:label  "actualStart"
+  .
+
+project:actualEnd
+    a          rdf:Property
+  ; api:label  "actualEnd"
+  .
+
+project:proposalStatus
+    a          rdf:Property
+  ; api:label  "proposalStatus"
+  .
+
+project:proposedBy
+    a          rdf:Property
+  ; api:label  "proposedBy"
+  .
+
+project:proposedTo
+    a          rdf:Property
+  ; api:label  "proposedTo"
+  .
+
+project:requestsResourcesFrom
+    a          rdf:Property
+  ; api:label  "requestsResourcesFrom"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:proposal
+    a          rdf:Property
+  ; api:label  "proposal"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:resources
+    a          rdf:Property
+  ; api:label  "resources"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:resourcedBy
+    a          rdf:Property
+  ; api:label  "resourcedBy"
   ; rdfs:range rdfs:Resource
   .
 

@@ -133,6 +133,11 @@ project:Proposal
   rdfs:subClassOf owl:Thing ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty project:proposalStatus ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
       owl:minCardinality "0"^^xsd:nonNegativeInteger ;
       owl:onProperty <http://data.sedgemoor.gov.uk/def/impact/mitigates> ;
     ] ;
@@ -241,6 +246,25 @@ project:proposal
   rdfs:label "proposal"@en ;
   rdfs:range project:Proposal ;
 .
+project:proposal-status
+  rdf:type skos:ConceptScheme ;
+  rdfs:comment "A controlled vocabulary of proposal status values."@en ;
+  rdfs:label "proposal status scheme"@en ;
+  skos:hasTopConcept <http://data.sedgemoor.gov.uk/def/project/proposal-status/accepted> ;
+  skos:hasTopConcept <http://data.sedgemoor.gov.uk/def/project/proposal-status/rejected> ;
+.
+<http://data.sedgemoor.gov.uk/def/project/proposal-status/accepted>
+  rdf:type project:ProposalStatus ;
+  rdfs:comment "The status of being accepted."@en ;
+  rdfs:label "Status accepted"@en ;
+  skos:topConceptOf project:proposal-status ;
+.
+<http://data.sedgemoor.gov.uk/def/project/proposal-status/rejected>
+  rdf:type project:ProposalStatus ;
+  rdfs:comment "The status of being rejected."@en ;
+  rdfs:label "rejected"@en ;
+  skos:topConceptOf project:proposal-status ;
+.
 project:proposalDate
   rdf:type owl:DatatypeProperty ;
   rdfs:comment "The property :proposalDate relates a proposal to the date on which the proposal was made or submitted."@en ;
@@ -254,13 +278,6 @@ project:proposalStatus
   rdfs:domain project:Proposal ;
   rdfs:label "proposal status"@en ;
   rdfs:range project:ProposalStatus ;
-.
-project:proposalStatusScheme
-  rdf:type skos:ConceptScheme ;
-  rdfs:comment "A controlled vocabulary of proposal status values."@en ;
-  rdfs:label "proposal status scheme"@en ;
-  skos:hasTopConcept project:statusAccepted ;
-  skos:hasTopConcept project:statusRejected ;
 .
 project:proposedBy
   rdf:type owl:ObjectProperty ;
@@ -298,18 +315,6 @@ project:resources
   rdfs:label "resources"@en ;
   rdfs:range rdfs:Resource ;
   owl:inverseOf project:resourcedBy ;
-.
-project:statusAccepted
-  rdf:type project:ProposalStatus ;
-  rdfs:comment "The status of being accepted."@en ;
-  rdfs:label "Status accepted"@en ;
-  skos:topConceptOf project:proposalStatusScheme ;
-.
-project:statusRejected
-  rdf:type project:ProposalStatus ;
-  rdfs:comment "The status of being rejected."@en ;
-  rdfs:label "rejected"@en ;
-  skos:topConceptOf project:proposalStatusScheme ;
 .
 <http://xmlns.com/foaf/0.1/Project>
   rdfs:subClassOf [

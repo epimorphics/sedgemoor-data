@@ -28,7 +28,16 @@
      <impact:impactOn>          : <{$base}community/{impact_on}>
      ^<impact:impactedBy>       : <{$base}community/{impact_on}>
      <impact:category>          : <impact:impact-category/{impact_category}>
-     <wdrs:describedBy>         : <{ $row.bnode }>
+     <wdrs:describedBy>         : |
+       <{ { 
+         if ( reference_uri != null) {
+           if (internal_reference == null) {
+             return reference_uri.asString() ;
+           } else {
+             return $row.bnode ;
+           }
+         }
+       } }>
    - name                       : version
      "@id"                      : <{$base}impact/{identifier}/ver/{version}>
      <dcterms:isVersionOf>      : <{$base}impact/{identifier}>
@@ -44,8 +53,16 @@
      ^<impact:impactedBy>       : <{$base}community/{impact_on}>
      <impact:category>          : <impact:impact-category/{impact_category}>
      <wdrs:describedBy>         : <{ $row.bnode }>
+     
    - name                       : reference
-     "@id"                      : <{ $row.bnode }>
+     "@id"                      : |
+       <{ {
+         if (internal_reference != null) {
+           return $row.bnode ;
+         } else {
+           return null
+         }
+       } }>
      <dcterms:isPartOf>         : <{reference_uri}>
      <dcterms:identifier>       : "{internal_reference}"
      
