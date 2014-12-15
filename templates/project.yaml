@@ -23,8 +23,8 @@
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
      <impact:mitigates>         : <{$base}impact/{mitigates}>
-     <project:hasSubProject>    : <{$base}project/{sub_project}>
      <project:hasParentProject> : <{$base}project/{parent_project}>
+     ^<project:hasSubProject>   : <{$base}project/{parent_project}>
      
      
 

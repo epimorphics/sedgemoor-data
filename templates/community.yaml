@@ -26,7 +26,6 @@
      <locn:location>            : <{$base}location/{location}>
      <community:classification> : <community:community-classification/{classification}>
      <dcterms:isPartOf>         : <{$base}community/{part_of}>
-     <dcterms:hasPart>          : <{$base}community/{has_part}>
-     
+     ^<dcterms:hasPart>         : <{$base}community/{part_of}>     
      
 
