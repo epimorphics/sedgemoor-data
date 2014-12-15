@@ -16,6 +16,7 @@
     impact     : http://data.sedgemoor.gov.uk/def/impact/
     project    : http://data.sedgemoor.gov.uk/def/project/
     wdrs       : http://www.w3.org/2007/05/powder-s#
+    version    : http://data.sedgemoor.gov.uk/def/version/
     
   templates : 
    - name                       : current_version
@@ -26,19 +27,22 @@
      <impact:impactOf>          : <{$base}project/{impact_of}>
      <impact:impactOn>          : <{$base}community/{impact_on}>
      ^<impact:impactedBy>       : <{$base}community/{impact_on}>
-     <impact:category>          : <{$base}impact-category/{impact_category}>
+     <impact:category>          : <impact:impact-category/{impact_category}>
      <wdrs:describedBy>         : <{ $row.bnode }>
    - name                       : version
      "@id"                      : <{$base}impact/{identifier}/ver/{version}>
      <dcterms:isVersionOf>      : <{$base}impact/{identifier}>
      ^<dcterms:hasVersion>      : <{$base}impact/{identifier}>
-     <rdf:type>                 : <impact:PredictedImpact>
+     <rdf:type>                 : 
+                                  - <impact:PredictedImpact> 
+                                  - <version:Version>
+     <version:identifier>       : "{ { version.asString()} }"
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
      <impact:impactOf>          : <{$base}project/{impact_of}>
      <impact:impactOn>          : <{$base}community/{impact_on}>
      ^<impact:impactedBy>       : <{$base}community/{impact_on}>
-     <impact:category>          : <{$base}impact-category/{impact_category}>
+     <impact:category>          : <impact:impact-category/{impact_category}>
      <wdrs:describedBy>         : <{ $row.bnode }>
    - name                       : reference
      "@id"                      : <{ $row.bnode }>
