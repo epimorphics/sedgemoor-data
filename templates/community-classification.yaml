@@ -3,7 +3,7 @@
 
   type:  Composite
   bind: 
-    $base: http://data.sedgemoor.gov.uk/id/community-classification
+    $base: http://data.sedgemoor.gov.uk/def/community/community-classification
   
   prefixes: 
     rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#

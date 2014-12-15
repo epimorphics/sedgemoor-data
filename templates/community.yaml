@@ -19,14 +19,14 @@
     
   templates : 
    - name                       : community
-     "@id"                      : <{$base}/community/{identifier}>
+     "@id"                      : <{$base}community/{identifier}>
      <rdf:type>                 : <community:Community>
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
      <locn:location>            : <{$base}location/{location}>
      <community:classification> : <community:community-classification/{classification}>
-     <dcterms:isPartOf>         : <{$base}/community/{part_of}>
-     <dcterms:hasPart>          : <{$base}/community/{has_part}>
+     <dcterms:isPartOf>         : <{$base}community/{part_of}>
+     <dcterms:hasPart>          : <{$base}community/{has_part}>
      
      
 

@@ -16,7 +16,7 @@
     
   templates : 
    - name                  : location
-     "@id"                 : <{$base}/location/{identifier}>
+     "@id"                 : <{$base}location/{identifier}>
      <rdf:type>            : <dcterms:Location>
      <rdfs:label>          : "{name}@en"
      <dcterms:description> : "{description}@en"
