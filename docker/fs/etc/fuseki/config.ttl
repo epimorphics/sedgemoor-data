@@ -42,7 +42,7 @@ tdb:GraphTDB    rdfs:subClassOf  ja:Model .
     .
 
 <#ds> rdf:type      tdb:DatasetTDB ;
-      tdb:location   "/var/lib/fuseki/databases/cim/tdb" ;
+      tdb:location   "/var/lib/fuseki/cim/tdb" ;
 ##     # Default graph for query is the (read-only) union of all named graphs.
       tdb:unionDefaultGraph true ;
      .
