@@ -73,6 +73,14 @@ spec:VHtmlFormatter
     ; elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory"
     ; api:mimeType "text/html"
     .
+    
+spec:api api:defaultFormatter 
+   [a elda:VelocityFormatter ;
+    api:name "html" ;
+    api:mimeType "text/html" ;
+    elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory" 
+   ]
+   .
 
 spec:api
 	a api:API ;
