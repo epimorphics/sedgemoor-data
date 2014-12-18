@@ -282,7 +282,7 @@ spec:impactVersion
 spec:impactViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,version-identifier,describedBy.isPartOf.label,describedBy.identifier,category.label,impactOf.label,impactOn.label,predictor.label" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,category.label,impactOf.label,impactOn.label,predictor.label" ;
             .  
                        
 spec:api    api:endpoint       spec:projects .
@@ -726,7 +726,12 @@ project:resourcedBy
 
 version:identifier
     a         rdf:Property
-  ; api:label "version-identifier"
+  ; api:label "versionIdentifier"
+  .
+  
+version:date
+    a         rdf:Property
+  ; api:label "versionDate"
   .
   
 ###############################################################################
