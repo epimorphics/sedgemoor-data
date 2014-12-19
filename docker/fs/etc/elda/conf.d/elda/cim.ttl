@@ -45,6 +45,7 @@ spec:api
     api:sparqlEndpoint  <http://localhost:3030/cim/query> ;
 #  Optional base URI for referencing XSLT/HTML stylesheet resources.
     api:variable [ api:name "_resourceRoot"         ; api:value "/lda-assets/" ];
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/velocity
     api:variable [api:name  "_velocityPath"         ; api:value "/var/www/data.sedgemoor.gov.uk/html/lda-assets/velocity"] ;
     api:variable [ api:name "visibleSparqlEndpoint" ; api:value "http://data.sedgemoor.gov.uk/sparql/cim/query" ];
     api:variable [ api:name "visibleSparqlForm"     ; api:value "http://data.sedgemoor.gov.uk/qonsole.html" ];
@@ -57,6 +58,7 @@ spec:HtmlFormatter
     api:name "html" ;
     api:mimeType "text/html";
     elda:metadataOptions "bindings,versions,execution,formats";
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/staging.xsl
     api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/staging.xsl" ; 
     . 
 
@@ -65,6 +67,7 @@ spec:CsvFormatter
     api:name "csv" ;
     api:mimeType "text/csv" ;
     elda:metadataOptions "bindings,versions,execution,formats";  
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/csv.xsl
     api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/csv.xsl" ; 
     .
 
@@ -141,7 +144,7 @@ spec:api    api:endpoint spec:definition2 .
 spec:definition2
   a api:ItemEndpoint ;
   rdfs:comment "Returns individual term definitions from a controlled vocabulary"@en;
-  api:exampleRequestPath  "/def/project/Project";
+  api:exampleRequestPath  "/def/impact/impact-category/1";
   api:uriTemplate "/def/{scheme}/{vocab}/{term}" ;
   api:itemTemplate "http://data.sedgemoor.gov.uk/def/{scheme}/{vocab}/{term}" ;
   api:viewer spec:definitionViewer, api:describeViewer, api:basicViewer;
@@ -180,7 +183,7 @@ spec:community
 spec:communityViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community-classification.name" ;
+            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community-classification.name,sameAs.label" ;
             .       
               
 spec:api    api:endpoint       spec:locations .
@@ -207,7 +210,7 @@ spec:location
             api:exampleRequestPath  "/doc/location/location-1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/location/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:describeViewer;         
+            api:defaultViewer   api:labelledDescribeViewer;         
             .
              
 spec:api    api:endpoint       spec:impacts .
@@ -282,7 +285,7 @@ spec:impactVersion
 spec:impactViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,category.label,impactOf.label,impactOn.label,predictor.label" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,category.label,impactOf.label,impactOn.label,predictor.label,sameAs.label" ;
             .  
                        
 spec:api    api:endpoint       spec:projects .
@@ -317,7 +320,7 @@ spec:project
 spec:projectViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*, hasSubProject.label, hasParentProject.label, proposal.label, resources.label, resourcedBy.label,describedBy.isPartOf.label,describedBy.identifier,hasImpact.label" ;
+            api:properties    "*, hasSubProject.label, hasParentProject.label, proposal.label, resources.label, resourcedBy.label,describedBy.isPartOf.label,describedBy.identifier,hasImpact.label,sameAs.label" ;
             .    
                        
 spec:api    api:endpoint       spec:proposals .
@@ -352,7 +355,7 @@ spec:proposal
 spec:proposalViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*, proposalStatus.label, describedBy.isPartOf.label, describedBy.identifier,proposedBy.label,proposedTo.label,requestsResourcesFrom.label" ;
+            api:properties    "*, proposalStatus.label, describedBy.isPartOf.label, describedBy.identifier,proposedBy.label,proposedTo.label,requestsResourcesFrom.label,sameAs.label" ;
             .    
                        
 spec:api    api:endpoint       spec:agents .
@@ -379,7 +382,7 @@ spec:agent
             api:exampleRequestPath  "/doc/agent/agent-1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/agent/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:describeViewer;         
+            api:defaultViewer   api:labelledDescribeViewer;         
             .        
                        
 spec:api    api:endpoint       spec:resource-sources .
@@ -394,7 +397,7 @@ spec:resource-sources
                 api:orderBy "STR(?item)"; 
             ];
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:describeViewer;         
+            api:defaultViewer   api:labelledDescribeViewer;         
             .
 
 spec:api    api:endpoint       spec:resource-source .
@@ -406,7 +409,7 @@ spec:resource-source
             api:exampleRequestPath  "/doc/resource-source/resource-source-1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/resource-source/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:describeViewer;         
+            api:defaultViewer   api:labelledDescribeViewer;         
             .     
 
             
