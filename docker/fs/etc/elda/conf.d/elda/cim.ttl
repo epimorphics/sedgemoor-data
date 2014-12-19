@@ -213,13 +213,13 @@ spec:location
             api:defaultViewer   api:labelledDescribeViewer;         
             .
              
-spec:api    api:endpoint       spec:impacts .
-spec:impacts
+spec:api    api:endpoint       spec:predicted-impacts .
+spec:predicted-impacts
             a                  api:ListEndpoint ;
-            api:uriTemplate    "/doc/impact";
-            api:name           "impacts";
+            api:uriTemplate    "/doc/predicted-impact";
+            api:name           "predicted-impacts";
             rdfs:comment       "Lists available impacts";
-            api:exampleRequestPath  "/doc/impacts";
+            api:exampleRequestPath  "/doc/predicted-impact";
             api:selector [
                 api:where   """{ 
                     ?item  a impact:PredictedImpact .
@@ -228,33 +228,33 @@ spec:impacts
                 api:orderBy "STR(?item)"; 
             ];
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:viewer          spec:impactViewer ;
-            api:defaultViewer   spec:impactViewer;         
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
             .
 
-spec:api    api:endpoint       spec:impact .
-spec:impact
+spec:api    api:endpoint       spec:predicted-impact .
+spec:predicted-impact
             a                  api:ItemEndpoint ;
-            api:uriTemplate    "/doc/impact/{id}";
-            api:name           "impact";
+            api:uriTemplate    "/doc/predicted-impact/{id}";
+            api:name           "predicted-impact";
             rdfs:comment       "Returns data for an impact";
-            api:exampleRequestPath  "/doc/impact/impact-1";
-            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/impact/{id}" ;      
+            api:exampleRequestPath  "/doc/impact/predicted-impact-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:viewer          spec:impactViewer ;
-            api:defaultViewer   spec:impactViewer;         
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
             .
 
-spec:api    api:endpoint       spec:impactVersions .
-spec:impactVersions
+spec:api    api:endpoint       spec:predictedImpactVersions .
+spec:predictedImpactVersions
             a                  api:ListEndpoint ;
-            api:uriTemplate    "/doc/impact/{id}/ver";
-            api:name           "impacts";
-            rdfs:comment       "Lists available impacts";
-            api:exampleRequestPath  "/doc/impact";
+            api:uriTemplate    "/doc/predicted-impact/{id}/ver";
+            api:name           "predicted impact versions";
+            rdfs:comment       "Lists available versions of a predicted impact";
+            api:exampleRequestPath  "/doc/predicted-impact/1/ver";
             api:variable [
                 api:name "perdurant"
-              ; api:value "http://data.sedgemoor.gov.uk/id/impact/{id}"
+              ; api:value "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}"
               ; api:type rdfs:Resource
             ] ;
             api:selector [
@@ -265,24 +265,24 @@ spec:impactVersions
                 api:orderBy "STR(?item)"; 
             ];
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:viewer          spec:impactViewer ;
-            api:defaultViewer   spec:impactViewer;         
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
             . 
 
-spec:api    api:endpoint       spec:impactVersion .
-spec:impactVersion
+spec:api    api:endpoint       spec:predictedImpactVersion .
+spec:predictedImpactVersion
             a                  api:ItemEndpoint ;
-            api:uriTemplate    "/doc/impact/{id}/ver/{ver}";
-            api:name           "impact";
-            rdfs:comment       "Returns data for an impact";
-            api:exampleRequestPath  "/doc/impact/impact-1/ver/1";
-            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/impact/{id}/ver/{ver}" ;      
+            api:uriTemplate    "/doc/predicted-impact/{id}/ver/{ver}";
+            api:name           "predicted impact version";
+            rdfs:comment       "Returns data for a predicted impact version";
+            api:exampleRequestPath  "/doc/predicted-impact/1/ver/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}/ver/{ver}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:viewer          spec:impactViewer ;
-            api:defaultViewer   spec:impactViewer;         
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
             . 
                         
-spec:impactViewer
+spec:predictedImpactViewer
             a                 api:Viewer ;
             api:name          "normal" ;
             api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,category.label,impactOf.label,impactOn.label,predictor.label,sameAs.label" ;
