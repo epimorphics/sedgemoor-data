@@ -183,7 +183,7 @@ spec:community
 spec:communityViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community-classification.name,sameAs.label" ;
+            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community-classification.name,sameAs.label,seeAlso.*" ;
             .       
               
 spec:api    api:endpoint       spec:locations .
@@ -383,7 +383,14 @@ spec:agent
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/agent/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
             api:defaultViewer   api:labelledDescribeViewer;         
-            .        
+            . 
+            
+spec:agentViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*,seelAlso.*,sameAs.label" ;
+            .    
+
                        
 spec:api    api:endpoint       spec:resource-sources .
 spec:resource-sources
