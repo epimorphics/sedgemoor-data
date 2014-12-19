@@ -320,7 +320,7 @@ spec:project
 spec:projectViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*, hasSubProject.label, hasParentProject.label, proposal.label, resources.label, resourcedBy.label,describedBy.isPartOf.label,describedBy.identifier,hasImpact.label,sameAs.label" ;
+            api:properties    "*, hasSubProject.label, hasParentProject.label, proposal.label, resources.label, resourcedBy.label,describedBy.isPartOf.label,describedBy.identifier,hasImpact.label,sameAs.label,operatesOn.label" ;
             .    
                        
 spec:api    api:endpoint       spec:proposals .
@@ -388,7 +388,7 @@ spec:agent
 spec:agentViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,seelAlso.*,sameAs.label" ;
+            api:properties    "*,seeAlso.*,sameAs.label" ;
             .    
 
                        
@@ -727,6 +727,12 @@ project:resources
 project:resourcedBy
     a          rdf:Property
   ; api:label  "resourcedBy"
+  ; rdfs:range rdfs:Resource
+  .
+  
+project:operatesOn
+    a          rdf:Property
+  ; api:label  "operatesOn"
   ; rdfs:range rdfs:Resource
   .
 
