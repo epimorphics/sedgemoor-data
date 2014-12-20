@@ -21,6 +21,7 @@
 @prefix dcterms:          <http://purl.org/dc/terms/> .
 @prefix wdrs:  <http://www.w3.org/2007/05/powder-s#> .
 
+@prefix agent:            <http://data.sedgemoor.gov.uk/def/agent/> .
 @prefix community:        <http://data.sedgemoor.gov.uk/def/community/> .
 @prefix impact:           <http://data.sedgemoor.gov.uk/def/impact/> .
 @prefix project:          <http://data.sedgemoor.gov.uk/def/project/> .
@@ -370,7 +371,8 @@ spec:agents
                 api:orderBy "STR(?item)"; 
             ];
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:describeViewer;         
+            api:viewer          spec:agentViewer ;
+            api:defaultViewer   spec:agentViewer;         
             .
 
 spec:api    api:endpoint       spec:agent .
@@ -382,13 +384,14 @@ spec:agent
             api:exampleRequestPath  "/doc/agent/agent-1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/agent/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:labelledDescribeViewer;         
+            api:viewer          spec:agentViewer ;
+            api:defaultViewer   spec:agentViewer;         
             . 
             
 spec:agentViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,seeAlso.*,sameAs.label" ;
+            api:properties    "*,seeAlso.*,sameAs.label,agent-category.label" ;
             .    
 
                        
@@ -646,6 +649,15 @@ impact:mitigates
   ; rdfs:range rdfs:Resource
   .
 
+###############################################################################
+## agent
+############################################################################### 
+  
+agent:category a rdf:Property
+  ; api:label "agent-category"
+  ; rdfs:range rdfs:Resource
+  .
+  
 ###############################################################################
 ## community
 ############################################################################### 
