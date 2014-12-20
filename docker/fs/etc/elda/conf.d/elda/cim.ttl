@@ -24,6 +24,7 @@
 @prefix agent:            <http://data.sedgemoor.gov.uk/def/agent/> .
 @prefix community:        <http://data.sedgemoor.gov.uk/def/community/> .
 @prefix impact:           <http://data.sedgemoor.gov.uk/def/impact/> .
+@prefix item:             <http://data.sedgemoor.gov.uk/def/item/> .
 @prefix project:          <http://data.sedgemoor.gov.uk/def/project/> .
 @prefix version:          <http://data.sedgemoor.gov.uk/def/version/> .
 @prefix model:            <http://data.sedgemoor.gov.uk/def/model/> .
@@ -420,6 +421,34 @@ spec:resource-source
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/resource-source/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
             api:defaultViewer   api:labelledDescribeViewer;         
+            . 
+                                   
+spec:api    api:endpoint       spec:items .
+spec:items
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/item";
+            api:name           "items";
+            rdfs:comment       "Lists items";
+            api:exampleRequestPath  "/doc/item";
+            api:selector [
+                api:where   "{ ?item  a item:Item }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .
+                
+
+spec:api    api:endpoint       spec:item .
+spec:item
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/item/{id}";
+            api:name           "item";
+            rdfs:comment       "Returns data for an item";
+            api:exampleRequestPath  "/doc/item/item-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/item/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
             .     
 
             
@@ -664,6 +693,15 @@ agent:category a rdf:Property
   
 community:classification a rdf:Property
   ; api:label "community-classification"
+  ; rdfs:range rdfs:Resource
+  .
+  
+###############################################################################
+## item
+############################################################################### 
+  
+item:category a rdf:Property
+  ; api:label "i"
   ; rdfs:range rdfs:Resource
   .
   
