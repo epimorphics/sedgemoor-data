@@ -287,7 +287,7 @@ spec:predictedImpactVersion
 spec:predictedImpactViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,category.label,impactOf.label,impactOn.label,predictor.label,sameAs.label" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,impactCategory.label,impactOf.label,impactsOn.label,predictor.label,sameAs.label" ;
             .  
                        
 spec:api    api:endpoint       spec:projects .
@@ -474,7 +474,7 @@ rdfs:label   api:label "label" ;
              api:structured "true"^^xsd:boolean;
              a rdf:Property .
              
-rdfs:seeAlso api:label "seeAlso" ; api:multiValued true ;
+rdfs:seeAlso api:label "seeAlso" ;
              rdfs:range     rdfs:Resource .
              
 rdfs:comment api:label "comment" ;
@@ -656,8 +656,8 @@ impact:hasImpact a rdf:Property
   ; rdfs:range rdfs:Resource
   .
   
-impact:impactOn a rdf:Property
-  ; api:label "impactOn"
+impact:impactsOn a rdf:Property
+  ; api:label "impactsOn"
   ; rdfs:range rdfs:Resource
   .
   
@@ -666,9 +666,9 @@ impact:impactedBy a rdf:Property
   ; rdfs:range rdfs:Resource
   .
   
-impact:category
+impact:impactCategory
     a rdf:Property
-  ; api:label "category"
+  ; api:label "impactCategory"
   ; rdfs:range rdfs:Resource
   .
 
