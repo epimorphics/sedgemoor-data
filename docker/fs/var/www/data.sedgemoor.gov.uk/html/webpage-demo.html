@@ -58,10 +58,11 @@ label
 		<h1>Using the Linked Data API</h1>
 		
 		<p>
-		  The following snippet of Javascript demonstrates using JQuery to make
+		  The following Javascript function demonstrates using JQuery to make
 		  an Ajax call to the server, retrieving results in json format and
 		  displaying them in the page.  The API call used returns a list of
-		  upto 10 impacts.
+		  upto 10 impacts.  If data in XML rather than JSON format is required,
+		  replace the text "application/json" with "application/xml".
 		<p>
 		<p>
 		  This code can be executed by clicking the 'execute' button below.
@@ -70,36 +71,43 @@ label
 		</p>
 		
 		<pre><code> 
-  // compute the server API base URL        
-  var apiBase = "http://" + $('#server').val()
- 
-  // make the API call
-  $.get(
-    // construct the request URI
-    apiBase + "/id/predicted-impact",
-    "",
-    // function called when result returned.
-    function(data, status, jqXHR) { 
-             
-      // for clarity - error checking elided             
-               
-      // get the dom element where we will display results        
-      var list = $("#impacts")impacts
-      data.sedgemoor.gov.uk
-      // loop through the results
-      var results = data.result.items
-      for (var i = 0; i < results.length; i++) {
-        var result = results[i]
-   
-        // Get the value of the label property
-        var label = result.label[0]._value 
-	
-        // add into the DOM for display
-        list.append("&lt;li>" + label + "&lt;/li>")              
-      }            
-    },
-    "json"
-  )	
+          
+        
+        function makeApiCall() {
+        
+          // callback function called on success
+          var callback = function(data, status, jqXHR) {          
+          // for clarity - error checking elided             
+                       
+            // get the dom element where we will display results        
+            var list = $("#impacts")
+              
+            // loop through the results
+            var results = data.result.items
+            for (var i = 0; i < results.length; i++) {
+              var result = results[i]
+                
+              // Get the value of the label property
+              var label = result.label[0]._value
+                
+              // add into the DOM for displayquery"
+              list.append("&lt;li>" + label + "&lt;/li>") 
+            } 
+          }            
+          
+          // compute the server API base URL        query"
+          var apiBase = "http://" + $('#server').val()
+          
+          // make the API call
+          $.ajax({ 
+            type: "GET",
+            url: apiBase + "/id/predicted-impact",            
+            headers: { 
+              Accept : "application/json; charset=utf-8"
+            },     
+            success: callback
+          })
+        }        
 		</code></pre>
 		  
 		<button id="api-call" type="button">Execute</button>
@@ -194,7 +202,7 @@ $.post(
       // this function will be executed once the page is loaded
       $(function() { 
       
-      // set up button clicked events
+        // set up button clicked events
       
         $("#api-call").click( 
           function() {
@@ -213,295 +221,41 @@ $.post(
         );
         
         function makeApiCall() {
-      
+        
+          // callback function called on success
+          var callback = function(data, status, jqXHR) {          
+          // for clarity - error checking elided             
+                       
+            // get the dom element where we will display results        
+            var list = $("#impacts")
+              
+            // loop through the results
+            var results = data.result.items
+            for (var i = 0; i < results.length; i++) {
+              var result = results[i]
+                
+              // Get the value of the label property
+              var label = result.label[0]._value
+                
+              // add into the DOM for displayquery"
+              list.append("<li>" + label + "</li>") 
+            } 
+          }            
+          
           // compute the server API base URL        query"
           var apiBase = "http://" + $('#server').val()
- 
-          // make the API call 
-          $.get(
-            // construct the requestdata.sedgemoor.gov.uk
-            apiBase + "/id/predicted-impact",
-            "",
-            // function called when result returned.
-            function(data, status, jqXHR) {          
-              // for clarity - error checking elided             
-                       
-              // get the dom element where we will display results        
-              var list = $("#impacts")
-              
-              // loop through the results
-              var results = data.result.items
-              for (var i = 0; i < results.length; i++) {
-                var result = results[i]
-                
-                // Get the value of the label property
-                var label = result.label[0]._value
-                
-                // add into the DOM for displayquery"
-                list.append("<li>" + label + "</li>")              
-            }            
-          },
-          "json"
-        ) 
-      } 
-      
-      function makeSparqlQuery() {
-      
-          // compute the server API base URL        
-          var apiBase = "http://" + $('#server').val()
-                    // compute the server API base URL        
-          var apiBase = "http://" + $('#server').val()
           
-          // the query
-          var query = [
-            "PREFIX community: <http://data.sedgemoor.gov.uk/def/community/>",
-            "PREFIX rdfs:      <http://www.w3.org/2000/01/rdf-schema#>",
-            "SELECT ?label {",<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Retrieving Data Demo</title>
+          // make the API call
+          $.ajax({ 
+            type: "GET",
+            url: apiBase + "/id/predicted-impact",            
+            headers: { 
+              Accept : "application/json; charset=utf-8"
+            },     
+            success: callback
+          })
+        }            
 
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html505shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-  	<div>  	
-  	  <A href="http://www.sedgemoor.gov.uk/" name="SedgemoorLogo" title="Link to Sedgemoor Homepage" id="sedgemoorLogo"><IMG src="/img/sedgemoor-logo.png" alt="Sedgemoor District Council"></a>
-    </div>
-  	<nav class="navbar navbar-inverse" role="navigation">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-	    <div class="navbar-header">/lda-assets \
-	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	        <span class="sr-only">Toggle navigation</span>
-	        <span clasdata.sedgemoor.gov.uks="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	  	  <a class="navbar-brand" href="#">Linked Data Prototype</a>
-	    </div>
-label
-	    <!-- Collect the nav linkld/s, forms, and other content for toggling -->
-	    <div class="data.sedgemoor.gov.ukcollapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	      <ul class="nav navbar-nav">
-	        <li><a href="#">Home</a></li>
-	        <li><a href="/id/impact"> Impacts</a></li>
-	        <li><a href="/id/community"> Communities </a></li>
-	        <li><a href="/id/project"> Projects </a></li>
-	        <li class="active"><a href="/webpage-demo.html">Accessing the data from within a Web page</a></li>
-	      </ul>
-	    </div><!-- /.navbar-collapse -->
-	  </div><!-- /.container-fluid -->
-	</nav>
-	
-	<div class="container-fluid" style="max-width: 1024px">
-      <div class="row" style="margin-left: 1ex; margin-right: 1ex">	
-      
-        <p>This page demonstrates retrieving data from the server via both a SPARQL query and a Linked Data API call.</p>
-      
-		<p>Enter the name of the server to be queried: 
-		  <input id="server" type="text" name="server" size="25" value="data.sedgemoor.gov.uk" /> 
-		</p>
-		  
-		<h1>Using the Linked Data API</h1>
-		
-		<p>
-		  The following snippet of Javascript demonstrates using JQuery to make
-		  an Ajax call to the server, retrieving results in json format and
-		  displaying them in the page.  The API call used returns a list of
-		  upto 10 impacts.
-		<p>
-		<p>
-		  This code can be executed by clicking the 'execute' button below.
-		  The full code and how it is integrated into the page can be seen
-		  viewing the source of this page.		
-		</p>
-		
-		<pre><code> 
-  // compute the server API base URL        
-  var apiBase = "http://" + $('#server').val()
- 
-  // make the API call
-  $.get(
-    // construct the request URI
-    apiBase + "/id/predicted-impact",
-    "",
-    // function called when result returned.
-    function(data, status, jqXHR) { 
-             
-      // for clarity - error checking elided             
-               
-      // get the dom element where we will display results        
-      var list = $("#impacts")impacts
-      data.sedgemoor.gov.uk
-      // loop through the results
-      var results = data.result.items
-      for (var i = 0; i < results.length; i++) {
-        var result = results[i]
-   
-        // Get the value of the label property
-        var label = result.label[0]._value 
-	
-        // add into the DOM for display
-        list.append("&lt;li>" + label + "&lt;/li>")              
-      }           },
-    "json"
-    }
-  )	
-		</code></pre>
-		  
-		<button id="api-call" type="button">Execute</button>
-		  
-		<br />
-		<br />
-		<p>List of upto 10 impacts:</>
-		  
-		<ul id="impacts">
-		  
-		</ul>
-		
-		<h1>Issuing a SPARQL Query</h1>
-		
-		<p>
-		  The following snippet of Javascript demonstrates using JQuery to make
-		  an Ajax call to issue a query to the server, retrieving results in json
-		  format and displaying them in the page.  The query issued returns a
-		  list of upto 10 communities.
-		<p>
-		<p>
-		  This code can be executed by clicking the 'execute' button below.
-		  The full code and how it is integrated into the page can be seen
-		  viewing the source of this page.		
-		</p>
-		
-		<pre><code>           
-		
-// compute the server API base URL        
-var apiBase = "http://" + $('#server').val()
-          
-// the query
-var query = [
-  "PREFIX community: <http://data.sedgemoor.gov.uk/def/community/>",
-  "PREFIX rdfs:      <http://www.w3.org/2000/01/rdf-schema#>",
-  "SELECT ?label {",
-  "  ?s a community:Community",
-  "     ; rdfs:label ?label",
-  "     .",
-  "}"
-].join('\n');
- 
-// make the SPARQL call
-$.post(
-  // construct the requestdata.sedgemoor.gov.uk
-  apiBase + "/sparql/cim/query",
-  "query=" + query,
-  // function called when result returned.
-  function(data, status, jqXHR) { 
-  
-    // for clarity - error checking elided             
-                       
-    // get the dom element where we will display results        
-    var list = $("#communities")
-              
-    // loop through the results
-    var results = data.results.bindings
-    for (var i = 0; i < results.length; i++) {
-      var result = results[i]
-            
-      // Get the value of the label property
-      var label = result.label.value
-                
-      // add into the DOM for display
-      list.append("&lt;li>" + label + "&lt;/li>")              
-    }            
-  }
-) 
-		</code></pre>
-		
-		  
-		<button id="sparql-query" type="button">Execute</button>
-		  
-		<br />
-		<br />
-		<p>List of upto 10 communities:
-		  
-		<ul id="communities">
-		  
-		</ul>
-      </div>
-     </div>
-        
-      
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual query"filEPO Linked Data Prototypees as needed -->
-    <script src="js/bootstrap.min.js"></script>
-    
-    <!-- Script to retrieve data using the Linked Data API -->  
-    <script>
-      // this function will be executed once the page is loaded
-      $(function() { 
-      
-      // set up button clicked events
-      
-        $("#api-call").click( 
-          function() {
-            // clear the old results
-            $("#impacts").empty()
-             makeApiCall()
-           }
-        );
-      
-        $("#sparql-query").click( 
-          function() {
-            // clear the old results
-            $("#communities").empty()
-             makeSparqlQuery()
-           }
-        );
-        
-        function makeApiCall() {
-      
-          // compute the server API base URL        query"
-          var apiBase = "http://" + $('#server').val()
- 
-          // make the API call 
-          $.get(
-            // construct the requestdata.sedgemoor.gov.uk
-                  apiBase + "/id/predicted-impact",
-      "",
-            // function called when result returned.
-            function(data, status, jqXHR) {          
-              // for clarity - error checking elided             
-                       
-              // get the dom element where we will display results        
-              var list = $("#impacts")
-              
-              // loop through the results
-              var results = data.result.items
-              for (var i = 0; i < results.length; i++) {
-                var result = results[i]
-                
-                // Get the value of the label property
-                var label = result.label[0]._value
-                
-                // add into the DOM for displayquery"
-                list.append("<li>" + label + "</li>")              
-            }            
-          },
-          "json"
-        ) 
-      } 
       
       function makeSparqlQuery() {
       
@@ -549,51 +303,7 @@ $.post(
         )
       }
       
-    });
-    
-    
-      
-   </script>
-  </body>
-</html>
-            "  ?s a community:Community",
-            "     ; rdfs:label ?label",
-            "     .",
-            "} LIMIT 10"
-          ].join('\n');data.sedgemoor.gov.uk
- 
-          // make the SPARQL call
-          $.post(
-            // construct the requestdata.sedgemoor.gov.uk
-            apiBase + "/sparql/cim/query",
-            "query=" + query,
-            // function called when result returned.
-            function(data, status, jqXHR) { 
- 
-              // for clarity - error checking elided             
-                       
-              // get the dom element where we will display results        
-              var list = $("#communities")
-              
-              // loop through the results
-              var results = data.results.bindings
-              for (var i = 0; i < results.length; i++) {data.sedgemoor.gov.uk
-                var result = results[i]
-                
-                // Get the value of the label property
-                var label = result.label.value
-                
-                // add into the DOM for display
-                list.append("<li>" + label + "</li>")              
-            }        
-          }
-        )
-      }
-      
-    });
-    
-    
-      
+    });      
    </script>
   </body>
 </html>
