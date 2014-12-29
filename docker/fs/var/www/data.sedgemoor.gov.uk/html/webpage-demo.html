@@ -37,9 +37,20 @@ label
 	    <div class="data.sedgemoor.gov.ukcollapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav">
 	        <li><a href="#">Home</a></li>
-	        <li><a href="/id/impact"> Impacts</a></li>
-	        <li><a href="/id/community"> Communities </a></li>
-	        <li><a href="/id/project"> Projects </a></li>
+	        <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Data <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/id/predicted-impact"> Predicted Impacts</a></li>
+                    <li><a href="/id/community"> Communities</a></li>
+                    <li><a href="/id/project"> Projects</a></li>
+                    <li><a href="/id/location"> Locations</a></li>
+                    <li><a href="/id/proposal"> Proposals</a></li>
+                    <li><a href="/id/resource-source"> Resource Sources</a></li>
+                    <li><a href="/id/agent"> Agents</a></li>
+                    <li><a href="/id/item"> Items </a></li> 
+                </ul>
+            </li>
+	        <li><a href="owldoc/index.html"> Ontology </a></li>
 	        <li class="active"><a href="/webpage-demo.html">Accessing the data from within a Web page</a></li>
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
