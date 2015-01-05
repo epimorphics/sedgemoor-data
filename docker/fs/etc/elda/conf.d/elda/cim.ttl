@@ -55,14 +55,14 @@ spec:api
     
 #FORMATTERS
 
-spec:HtmlFormatter
-    a api:XsltFormatter ;
-    api:name "html" ;
-    api:mimeType "text/html";
-    elda:metadataOptions "bindings,versions,execution,formats";
+#spec:HtmlFormatter
+#    a api:XsltFormatter ;
+#    api:name "html" ;
+#    api:mimeType "text/html";
+#    elda:metadataOptions "bindings,versions,execution,formats";
 # note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/staging.xsl
-    api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/staging.xsl" ; 
-    . 
+#    api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/staging.xsl" ; 
+#    . 
 
 spec:CsvFormatter
     a api:XsltFormatter ;
@@ -102,7 +102,10 @@ spec:api
 ##    api:variable [ api:name "_exceptionIfEmpty"; api:value "no" ];
 	api:defaultFormatter spec:HtmlFormatter ;
     
-	api:formatter spec:HtmlFormatter,spec:CsvFormatter,spec:VHtmlFormatter ;
+	api:formatter 
+#	  spec:HtmlFormatter,
+	  spec:CsvFormatter,
+	  spec:VHtmlFormatter ;
 	
 	api:endpoint
         spec:anything
