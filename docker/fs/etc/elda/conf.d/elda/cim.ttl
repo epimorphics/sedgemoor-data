@@ -360,7 +360,7 @@ spec:proposal
 spec:proposalViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*, proposalStatus.label, describedBy.isPartOf.label, describedBy.identifier,proposedBy.label,proposedTo.label,requestsResourcesFrom.label,sameAs.label" ;
+            api:properties    "*, proposalStatus.label, describedBy.isPartOf.label, describedBy.identifier,proposedBy.label,proposedTo.label,requestsResourcesFrom.label,sameAs.label,community.label,mitigates.label" ;
             .    
                        
 spec:api    api:endpoint       spec:agents .
@@ -526,7 +526,6 @@ owl:ObjectProperty
             a           owl:Class;
             api:label   "ObjectProperty";
             .
-            
 
 ###############################################################################
 ## dcterms
@@ -696,6 +695,11 @@ agent:category a rdf:Property
   
 community:classification a rdf:Property
   ; api:label "community-classification"
+  ; rdfs:range rdfs:Resource
+  . 
+  
+community:community a rdf:Property
+  ; api:label "community"
   ; rdfs:range rdfs:Resource
   .
   
