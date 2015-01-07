@@ -53,7 +53,7 @@
       // configuration
       var config = {
         endpoints: {
-          "default": "http://data.sedgemoor.gov.uk/sparql/cim/query",
+          "default": "http://data.sedgemoor.gov.uk/sparql/$DATASET/query",
         },
         prefixes: {
           "rdf":        "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -66,8 +66,11 @@
           "locn":       "http://www.w3.org/ns/locn#",
           "wdrs":       "http://www.w3.org/2007/05/powder-s#",
           "skos":       "http://www.w3.org/2004/02/skos/core#",
-          "impact":     "http://data.sedgemoor.gov.uk/def/impact/",
+          "agent":      "http://data.sedgemoor.gov.uk/def/agent/",
           "community":  "http://data.sedgemoor.gov.uk/def/community/",
+          "impact":     "http://data.sedgemoor.gov.uk/def/impact/",
+          "item":       "http://data.sedgemoor.gov.uk/def/item/",
+          "model":      "http://data.sedgemoor.gov.uk/def/model/",
           "project":    "http://data.sedgemoor.gov.uk/def/project/",
           "version":    "http://data.sedgemoor.gov.uk/def/version/"          
        },
