@@ -1,4 +1,2 @@
 ## Extension point to add additional content to <head> element
 ## E.g. additional JavaScript or CSS resources, or analytics
-<script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="/lda-assets/scripts/staging.js"></script>
