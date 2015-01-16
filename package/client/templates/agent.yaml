@@ -22,6 +22,7 @@
      <rdf:type>            : <foaf:Agent>
      <rdfs:label>          : "{name}@en"
      <dcterms:description> : "{description}@en"
+     <foaf:homepage>       : <{home_page}>
      <agent:category>      : <agent:{agent_category}>
      <owl:sameAs>	       : <{same_as}>     
      <rdfs:seeAlso>        : |
