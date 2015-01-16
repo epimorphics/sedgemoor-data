@@ -1,0 +1,114 @@
+- name         : agent-category
+  description  : Template for translating agent categories to RDF
+
+  type:  Composite
+  bind: 
+    $base      : http://data.sedgemoor.gov.uk/def/agent/agent-category
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    skos       : http://www.w3.org/2004/02/skos/core#
+    agent      : http://data.sedgemoor.gov.uk/def/agent/
+    impact     : http://data.sedgemoor.gov.uk/def/impact/
+    project    : http://data.sedgemoor.gov.uk/def/project/
+    
+  templates    : skos_hierarchy
+
+- name       : skos_hierarchy
+  type       : Hierarchy   
+  parentLink : <skos:broader>
+  childLink  : <skos:narrower>
+  topLink    : <skos:hasTopConcept>
+  invTopLink : <skos:topConceptOf>
+  
+#
+# Set up the hierarchy - count the '.' chars in the identifier to determine the level
+#
+
+  0 : 
+    bind: 
+      level    : |
+        { { 
+          if ( identifier.toString().contains('.') ) { 
+            return null ; 
+          } else { 
+            return identifier.toString() ; 
+          } 
+        } }
+    template   :   skos_concept
+  1 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 2 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  2 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 3 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  3 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 4 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  4 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 5 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept    
+  5 : 
+    bind : 
+      level    : |
+        { { 
+          if ( size(identifier.toString().split('\.')) == 6 ) {
+            return identifier.toString() ;
+          } else {
+            return null ;
+          }            
+        } }
+    template   : skos_concept 
+
+- name                  : skos_concept
+  "@id"                 : <http://data.sedgemoor.gov.uk/def/agent/{level}>
+  <rdf:type>            : <agent:AgentCategory>
+  <skos:prefLabel>      : "{name}@en"
+  <rdfs:label>          : "{name}@en"
+  <skos:definition>     : "{definition}@en"
+  <skos:inScheme>       : <{$dataset}>
+  <owl:sameAs>          : <{same_as}>
+
+- name                  : sameAs
+  "@id"                : <{same_as}>
+  <rdfs:label>         : "{same_as_name}"
+
+     

@@ -1,0 +1,58 @@
+  name         : location
+  description  : Template for translating locations to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    
+  templates : 
+   - name                  : location
+     "@id"                 : <{$base}{identifier}>
+     <rdf:type>            : <dcterms:Location>
+     <rdfs:label>          : "{name}@en"
+     <dcterms:description> : "{description}@en"
+     <owl:sameAs>          : 
+       - <{gazetteer}>
+       - <{area}>
+       - <{same_as}>
+     <geo-sparql:sfWithin> : <{contained_in}>
+     <geo:lat>             : "{lat}^^xsd:double"
+     <geo:long>            : "{long}^^xsd:double"     
+     <rdfs:seeAlso>        : |
+       <{ { 
+         if ( reference_uri != null) {
+           if (reference_section == null) {
+             return reference_uri.asString() ;
+           } else {
+             return $row.bnode ;
+           }
+         }
+       } }>
+     
+   - name                  : sameAs
+     "@id"                 : <{same_as}>
+     <rdfs:label>          : "{same_as_name}"   
+   
+   - name                       : reference
+     "@id"                      : |
+       <{ {
+         if (reference_section != null) {
+           return $row.bnode ;
+         } else {
+           return null
+         }
+       } }>
+     <dcterms:isPartOf>         : <{reference_uri}>
+     <dcterms:identifier>       : "{reference_section}"
+        
+     
+

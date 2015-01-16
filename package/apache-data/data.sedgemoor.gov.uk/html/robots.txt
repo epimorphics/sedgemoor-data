@@ -1,0 +1,13 @@
+User-agent: Googlebot
+User-agent: DuckDuckBot
+User-agent: msnbot
+Disallow: /def
+Disallow: /doc
+Disallow: /data
+Disallow: /sparql
+Disallow: /id
+Disallow: /anything
+Disallow: /thing
+Allow: /
+User-agent: *
+Disallow: /

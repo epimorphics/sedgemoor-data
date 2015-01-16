@@ -1,0 +1,40 @@
+# baseURI: http://data.sedgemoor.gov.uk/def/item/
+# imports: http://www.w3.org/2004/02/skos/core
+
+# c14n-version: 3
+@prefix item: <http://data.sedgemoor.gov.uk/def/item/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+item:
+  rdf:type owl:Ontology ;
+  rdfs:comment "An ontology module defining a very simple classification scheme.  This is a very general purpose module which is intended to allow arbitrary resources to be tagged using some categorization scheme."@en ;
+  rdfs:label "Item Ontology"@en ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+.
+item:Category
+  rdf:type owl:Class ;
+  rdfs:comment "The class of concepts in the Sedgemoor item taxonomy."@en ;
+  rdfs:label "item category"@en ;
+  rdfs:subClassOf skos:Concept ;
+.
+item:Item
+  rdf:type owl:Class ;
+  rdfs:comment "The class of items.  This class is equivalent to rdfs:Resource.  A type property on a resource can be used as a syntactic marker to support querying for resources with the marker."@en ;
+  rdfs:label "Item"@en ;
+  rdfs:subClassOf owl:Thing ;
+.
+item:category
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment ""@en ;
+  rdfs:domain item:Item ;
+  rdfs:label "category"@en ;
+  rdfs:range item:Category ;
+.
+item:item-category
+  rdf:type skos:ConceptScheme ;
+  rdfs:comment "A SKOS concept scheme of concets for categorizing items."@en ;
+  rdfs:label "item-category"@en ;
+.

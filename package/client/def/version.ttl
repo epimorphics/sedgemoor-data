@@ -1,0 +1,63 @@
+# baseURI: http://data.sedgemoor.gov.uk/def/version/
+# imports: http://purl.org/dc/terms/
+
+# c14n-version: 3
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix version: <http://data.sedgemoor.gov.uk/def/version/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+version:
+  rdf:type owl:Ontology ;
+  rdfs:comment "A small ontology with some basic terms for representing versions."@en ;
+  rdfs:label "Version Ontology"@en ;
+  owl:imports <http://purl.org/dc/terms/> ;
+.
+version:Version
+  rdf:type owl:Class ;
+  rdfs:comment "The class of versions.  A version is a version of a versioned thing."@en ;
+  rdfs:label "Version"@en ;
+  rdfs:subClassOf owl:Thing ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:cardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty version:identifier ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:maxCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty version:date ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:onClass version:VersionedThing ;
+      owl:onProperty <http://purl.org/dc/terms/isVersionOf> ;
+      owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+    ] ;
+.
+version:VersionedThing
+  rdf:type owl:Class ;
+  rdfs:comment "The class of versioned things.  A versioned thing is a thing which may have more than one version."@en ;
+  rdfs:label "Versioned thing"@en ;
+  rdfs:subClassOf owl:Thing ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onClass version:Version ;
+      owl:onProperty <http://purl.org/dc/terms/hasVersion> ;
+    ] ;
+.
+version:date
+  rdf:type owl:DatatypeProperty ;
+  rdfs:comment "The :dateProperty relates a version to 'the date' of that version.  What constitutes 'the date' of a version depends on the type of thing that is being versioned.  For example, the :date of a version of a publication might be the date that particular version was finalized.."@en ;
+  rdfs:domain version:Version ;
+  rdfs:label "date"@en ;
+  rdfs:range xsd:date ;
+.
+version:identifier
+  rdf:type owl:DatatypeProperty ;
+  rdfs:comment "The property :identifier relates a version to an identifier uniquely identifying that version  of the versioned thing."@en ;
+  rdfs:domain version:Version ;
+  rdfs:label "version identifier"@en ;
+  rdfs:range xsd:string ;
+.

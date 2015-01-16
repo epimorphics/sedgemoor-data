@@ -1,0 +1,62 @@
+  name         : proposal
+  description  : Template for translating proposals to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    community  : http://data.sedgemoor.gov.uk/def/community/
+    impact     : http://data.sedgemoor.gov.uk/def/impact/
+    project    : http://data.sedgemoor.gov.uk/def/project/
+    wdrs       : http://www.w3.org/2007/05/powder-s#
+    
+  templates : 
+   - name                            : proposal
+     "@id"                           : <{$base}{identifier}>
+     <rdf:type>                      : <project:Proposal>
+     <rdfs:label>                    : "{name}@en"
+     <dcterms:description>           : "{description}@en"
+     <wdrs:describedBy>         : |
+       <{ { 
+         if ( reference_uri != null) {
+           if (reference_section == null) {
+             return reference_uri.asString() ;
+           } else {
+             return $row.bnode ;
+           }
+         }
+       } }>
+     <project:proposedBy>            : <{$base}{proposed_by}>
+     <project:proposedTo>            : <{$base}{proposed_to}>
+     <community:community>           : <{$base}{community}>
+     <impact:mitigates>              : <{$base}{mitigates}>
+     <project:requestsResourcesFrom> : <{$base}{resource_source}>
+     ^<project:hasResourceRequest>   : <{$base}{resource_source}>
+     <project:proposalStatus>        : <project:proposal-status/{status}>
+     <owl:sameAs>                    : <{same_as}>
+     
+   - name                  : sameAs
+     "@id"                 : <{same_as}>
+     <rdfs:label>          : "{same_as_name}"    
+     
+   - name                       : reference
+     "@id"                      : |
+       <{ {
+         if (reference_section != null) {
+           return $row.bnode ;
+         } else {
+           return null
+         }
+       } }>
+     <dcterms:isPartOf>         : <{reference_uri}>
+     <dcterms:identifier>       : "{reference_section}"
+     
+

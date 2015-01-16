@@ -1,0 +1,90 @@
+
+## Sedgemoor Impact Database Fuseki configuration
+
+@prefix :        <#> .
+@prefix fuseki:  <http://jena.apache.org/fuseki#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix tdb:     <http://jena.hpl.hp.com/2008/tdb#> .
+@prefix ja:      <http://jena.hpl.hp.com/2005/11/Assembler#> .
+
+[] rdf:type fuseki:Server ;
+   # Timeout - server-wide default: milliseconds.
+   # Format 1: "1000" -- 1 second timeout
+   # Format 2: "10000,60000" -- 10s timeout to first result, then 60s timeout to for rest of query.
+   # See java doc for ARQ.queryTimeout
+     ja:context [ ja:cxtName "arq:queryTimeout" ;  ja:cxtValue "45000,60000" ] ;
+   # ja:loadClass "your.code.Class" ;
+
+#
+# We have a single service with full readwrite access.
+# Access to the read endpoints will be passed through by the web front end
+# Access to the write endpoints are only available where allowed by the firewall
+#
+
+   fuseki:services (
+     <#service_rw>
+   ) .
+#
+# the data is stored in a TDB database
+#
+
+[] ja:loadClass "com.hp.hpl.jena.tdb.TDB" .
+tdb:DatasetTDB  rdfs:subClassOf  ja:RDFDataset .
+tdb:GraphTDB    rdfs:subClassOf  ja:Model .
+
+<#service_rw> rdf:type fuseki:Service ;
+    rdfs:label                             "TDB Service (RW)" ;
+    fuseki:name                            "$DATASET" ;
+    fuseki:serviceQuery                    "query" ;
+    fuseki:serviceUpdate                   "update" ;
+    fuseki:serviceUpload                   "upload" ;
+    fuseki:serviceReadWriteGraphStore      "data" ;
+    # A separate read-only graph store endpoint:
+    fuseki:serviceReadGraphStore           "get" ;
+    fuseki:dataset                         <#ds-with-lucene> ;
+    .
+
+<#ds> rdf:type      tdb:DatasetTDB ;
+                      tdb:location   "$FUSEKI_DATABASES/$DATASET/tdb" ;
+##     # Default graph for query is the (read-only) union of all named graphs.
+                      tdb:unionDefaultGraph true ;
+     .
+     
+
+@prefix text:    <http://jena.apache.org/text#> .
+
+## Initialize text query
+[] ja:loadClass       "org.apache.jena.query.text.TextQuery" .
+
+# A TextDataset is a regular dataset with a text index.
+text:TextDataset      rdfs:subClassOf   ja:RDFDataset .
+# Lucene index
+text:TextIndexLucene  rdfs:subClassOf   text:TextIndex .
+
+<#ds-with-lucene> rdf:type     text:TextDataset; 
+    text:dataset   <#ds> ;
+    text:index     <#indexLucene> ;
+    .
+<#indexLucene> a text:TextIndexLucene ;
+    text:directory <file:$FUSEKI_DATABASES/$DATASET/lucene>;
+    text:entityMap <#entMap> ;    .
+ 
+# Mapping in the index
+# URI stored in field "uri"
+# rdfs:label is mapped to field "text"
+
+# The entity may specifies what properties are stored in which fields of the text index
+<#entMap> a text:EntityMap ;
+    text:entityField      "uri" ;
+    text:defaultField     "text" ;
+    text:map (
+             [ 
+               text:field "text" ; 
+               text:predicate rdfs:label ; 
+             ] 
+         ) .
+         
+             
+    
+    

@@ -1,0 +1,36 @@
+# baseURI: http://data.sedgemoor.gov.uk/def/agent/
+# imports: http://www.w3.org/2004/02/skos/core
+# imports: http://xmlns.com/foaf/0.1/
+
+# c14n-version: 3
+@prefix agent: <http://data.sedgemoor.gov.uk/def/agent/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+agent:
+  rdf:type owl:Ontology ;
+  rdfs:comment "An ontology that extends the concept of FOAF agent."@en ;
+  rdfs:label "Agent Ontology"@en ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+  owl:imports <http://xmlns.com/foaf/0.1/> ;
+.
+agent:AgentCategory
+  rdf:type owl:Class ;
+  rdfs:comment "The class of agent categories."@en ;
+  rdfs:label "Agent category"@en ;
+  rdfs:subClassOf skos:Concept ;
+.
+agent:agent-category
+  rdf:type skos:ConceptScheme ;
+  rdfs:comment "A concept scheme of categories of agent."@en ;
+  rdfs:label "agent-category"@en ;
+.
+agent:category
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :category  is a general purpose property that relates a resource to an agent category.  It may be used to relate and agent to a categoryof that agent."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "agent category"@en ;
+  rdfs:range agent:AgentCategory ;
+.

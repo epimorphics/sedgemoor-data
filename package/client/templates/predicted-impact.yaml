@@ -1,0 +1,89 @@
+  name         : impact
+  description  : Template for translating impacts to RDF
+
+  type:  Composite
+  bind: 
+    $base: http://data.sedgemoor.gov.uk/id/
+  
+  prefixes: 
+    rdf        : http://www.w3.org/1999/02/22-rdf-syntax-ns#
+    rdfs       : http://www.w3.org/2000/01/rdf-schema#
+    owl        : http://www.w3.org/2002/07/owl#
+    dcterms    : http://purl.org/dc/terms/
+    geo-sparql : http://www.opengis.net/def/geosparql/
+    geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
+    xsd        : http://www.w3.org/2001/XMLSchema#
+    impact     : http://data.sedgemoor.gov.uk/def/impact/
+    project    : http://data.sedgemoor.gov.uk/def/project/
+    wdrs       : http://www.w3.org/2007/05/powder-s#
+    version    : http://data.sedgemoor.gov.uk/def/version/
+    model      : http://data.sedgemoor.gov.uk/def/model/
+    
+  templates : 
+   - name                       : current_version
+     "@id"                      : <{{ if (version == null) { return "" ; } else { return null } }}{$base}{identifier}>
+     <version:date>             : "{version_date}^^xsd:date"
+     <rdf:type>                 : <impact:PredictedImpact>
+     <rdfs:label>               : "{name}@en"
+     <dcterms:description>      : "{description}@en"
+     <impact:impactOf>          : <{$base}{impact_of}>
+     ^<impact:hasImpact>        : <{$base}{impact_of}>
+     <impact:impactsOn>         : <{$base}{impacts_on}>
+     ^<impact:impactedBy>       : <{$base}{impacts_on}>
+     <impact:impactCategory>    : <impact:{impact_category}>
+     <model:predictor>          : <{$base}{predicted_by}>
+     <wdrs:describedBy>         : |
+       <{ { 
+         if ( reference_uri != null) {
+           if (reference_section == null) {
+             return reference_uri.asString() ;
+           } else {
+             return $row.bnode ;
+           }
+         }
+       } }>
+     <owl:sameAs>               : <{same_as}>
+     
+   - name                  : sameAs
+     "@id"                 : <{same_as}>
+     <rdfs:label>          : "{same_as_name}"    
+     
+   - name                       : version
+     "@id"                      : <{$base}{identifier}/ver/{version}>
+     <dcterms:isVersionOf>      : <{$base}{identifier}>
+     ^<dcterms:hasVersion>      : <{$base}{identifier}>
+     <version:date>             : "{version_date}^^xsd:date"
+     <rdf:type>                 : 
+                                  - <impact:PredictedImpact> 
+                                  - <version:Version>
+     <version:identifier>       : "{ { version.asString()} }"
+     <rdfs:label>               : "{name}@en"
+     <dcterms:description>      : "{description}@en"
+     <impact:impactOf>          : <{$base}{impact_of}>
+     <impact:impactsOn>         : <{$base}{impacts_on}>
+     ^<impact:impactedBy>       : <{$base}{impacts_on}>
+     <impact:impactCategory>    : <impact:{impact_category}>
+     <model:predictor>          : <{$base}{predicted_by}>
+     <wdrs:describedBy>         : |
+       <{ {
+         if (reference_section != null) {
+           return $row.bnode ;
+         } else {
+           return null
+         }
+       } }>
+     <owl:sameAs>               : <{same_as}>
+     
+   - name                       : reference
+     "@id"                      : |
+       <{ {
+         if (reference_section != null) {
+           return $row.bnode ;
+         } else {
+           return null
+         }
+       } }>
+     <dcterms:isPartOf>         : <{reference_uri}>
+     <dcterms:identifier>       : "{reference_section}"
+     
+ 

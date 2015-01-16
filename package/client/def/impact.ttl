@@ -1,0 +1,152 @@
+# baseURI: http://data.sedgemoor.gov.uk/def/impact/
+# imports: http://data.sedgemoor.gov.uk/def/model/
+# imports: http://purl.org/dc/terms/
+# imports: http://www.w3.org/2004/02/skos/core
+# imports: http://www.w3.org/2007/05/powder-s
+# imports: http://xmlns.com/foaf/0.1/
+
+# c14n-version: 3
+@prefix impact: <http://data.sedgemoor.gov.uk/def/impact/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix powder-s: <http://www.w3.org/2007/05/powder-s#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+impact:
+  rdf:type owl:Ontology ;
+  rdfs:comment "An ontology for describing impacts."@en ;
+  rdfs:label "impact ontology"@en ;
+  owl:imports <http://data.sedgemoor.gov.uk/def/model/> ;
+  owl:imports <http://purl.org/dc/terms/> ;
+  owl:imports <http://www.w3.org/2004/02/skos/core> ;
+  owl:imports <http://www.w3.org/2007/05/powder-s> ;
+  owl:imports <http://xmlns.com/foaf/0.1/> ;
+.
+impact:ActualImpact
+  rdf:type owl:Class ;
+  rdfs:comment "The class of actual impacts.  An actual impact is a real impact that has occurred."@en ;
+  rdfs:label "Actual impact"@en ;
+  rdfs:subClassOf impact:Impact ;
+.
+impact:Impact
+  rdf:type owl:Class ;
+  rdfs:comment "The class of impacts.  An impact is a consequence.  It may, for example, be a consequence of a large scale construction project, but there are many kinds of things that may have an impact.  An impact has an impact on something.  For example, an impact may have an impact on a community.  However an impact can have an impact on a variety of different kinds of thing such as the environment or the economy."@en ;
+  rdfs:label "Impact"@en ;
+  rdfs:subClassOf owl:Thing ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onProperty impact:impactCategory ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onProperty <http://purl.org/dc/terms/description> ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onProperty rdfs:label ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onProperty powder-s:describedby ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty impact:impactOf ;
+    ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "1"^^xsd:nonNegativeInteger ;
+      owl:onProperty impact:impactsOn ;
+    ] ;
+.
+impact:ImpactCategory
+  rdf:type owl:Class ;
+  rdfs:comment "The class of impact categories."@en ;
+  rdfs:label "Impact category"@en ;
+  rdfs:subClassOf skos:Concept ;
+.
+impact:PredictedImpact
+  rdf:type owl:Class ;
+  rdfs:comment "The class of predicated impacts.  A predicted impact is a predication of an impact.  A predicated impact is typically  predicted to happen in the future."@en ;
+  rdfs:label "Actual impact"@en ;
+  rdfs:subClassOf impact:Impact ;
+  rdfs:subClassOf <http://data.sedgemoor.gov.uk/def/model/Prediction> ;
+.
+impact:broaderImpact
+  rdf:type owl:TransitiveProperty ;
+  rdfs:comment "There is a broader/narrower structure to impacts.  One impact may be a more specific instance of a broader impact.  The property :broaderImpact relates an impact to one that is broader than it.   It is a transitive property."@en ;
+  rdfs:domain impact:Impact ;
+  rdfs:label "broader impact"@en ;
+  rdfs:range impact:Impact ;
+.
+impact:hasImpact
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :hasImpact is a general purpose property that relates a resource, such as a project, to an impact of that resource."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "has impact"@en ;
+  rdfs:range impact:Impact ;
+  owl:inverseOf impact:impactOf ;
+.
+impact:impact-category
+  rdf:type skos:ConceptScheme ;
+  rdfs:comment "A concept scheme of impact categories."@en ;
+  rdfs:label "impact category scheme"@en ;
+.
+impact:impactCategory
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :impactCategory is a  general purpose property that relates a resource to an impact category."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "impact category"@en ;
+  rdfs:range impact:ImpactCategory ;
+.
+impact:impactOf
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :impactOf relates an impact to the cause of an impact."@en ;
+  rdfs:domain impact:Impact ;
+  rdfs:label "impact of"@en ;
+  rdfs:range rdfs:Resource ;
+  owl:inverseOf impact:hasImpact ;
+.
+impact:impactedBy
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :impactedBy is a general purpose property that relates a resource to an impact that impacts it."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "impacted by"@en ;
+  rdfs:range impact:Impact ;
+  owl:inverseOf impact:impactsOn ;
+.
+impact:impactsOn
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :impactsOn relates an impact to something that is impacted by the impact."@en ;
+  rdfs:domain impact:Impact ;
+  rdfs:label "impacts on"@en ;
+  rdfs:range rdfs:Resource ;
+  owl:inverseOf impact:impactedBy ;
+.
+impact:mitigates
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :mitigates is a general purpose property that relates a resource to an impact.    The property may be used to indicate that there is a positive relationship related to mitigation between the subject and object resources.  For example, it may be used to indicate that a project proposal proposes a project to mitigate an impact even thought the proposal itself does not mitigate the impact."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "mitigates"@en ;
+  rdfs:range impact:Impact ;
+.
+impact:narrowerImpact
+  rdf:type owl:TransitiveProperty ;
+  rdfs:comment "There is a broader/narrower structure to impacts.  One impact may be a more specific instance of a broader impact.  The property :narrowerImpact relates an impact to one that is narrower than it.   It is a transitive property."@en ;
+  rdfs:domain impact:Impact ;
+  rdfs:label "narrower impact"@en ;
+  rdfs:range impact:Impact ;
+.
+<http://data.sedgemoor.gov.uk/def/model/Prediction>
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onProperty <http://data.sedgemoor.gov.uk/def/model/predictor> ;
+    ] ;
+.

@@ -1,0 +1,818 @@
+## Common prefixes.
+@prefix rdf:              <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:             <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:              <http://www.w3.org/2002/07/owl#> .
+@prefix foaf:             <http://xmlns.com/foaf/0.1/> .
+@prefix xsd:              <http://www.w3.org/2001/XMLSchema#> .
+@prefix api:              <http://purl.org/linked-data/api/vocab#> .
+@prefix skos:             <http://www.w3.org/2004/02/skos/core#> .
+@prefix geo:              <http://www.w3.org/2003/01/geo/wgs84_pos#> .
+@prefix spatialrelations: <http://data.ordnancesurvey.co.uk/ontology/spatialrelations/> .
+@prefix geometry:         <http://data.ordnancesurvey.co.uk/ontology/geometry/> .
+@prefix onsadmingeo: 	  <http://statistics.data.gov.uk/def/administrative-geography/> .
+@prefix osadmingeo:       <http://data.ordnancesurvey.co.uk/ontology/admingeo/> .
+@prefix qb:      	      <http://purl.org/linked-data/cube#> .
+@prefix time:	 	      <http://www.w3.org/2006/time#> .
+@prefix interval:         <http://reference.data.gov.uk/def/intervals/> .
+@prefix dgu: 		      <http://reference.data.gov.uk/def/reference/> .
+@prefix org:              <http://www.w3.org/ns/org#> .
+@prefix version:          <http://environment.data.gov.uk/def/version/> .
+@prefix stats:            <http://statistics.data.gov.uk/def/administrative-geography/> .
+@prefix dcterms:          <http://purl.org/dc/terms/> .
+@prefix wdrs:  <http://www.w3.org/2007/05/powder-s#> .
+
+@prefix agent:            <http://data.sedgemoor.gov.uk/def/agent/> .
+@prefix community:        <http://data.sedgemoor.gov.uk/def/community/> .
+@prefix impact:           <http://data.sedgemoor.gov.uk/def/impact/> .
+@prefix item:             <http://data.sedgemoor.gov.uk/def/item/> .
+@prefix project:          <http://data.sedgemoor.gov.uk/def/project/> .
+@prefix version:          <http://data.sedgemoor.gov.uk/def/version/> .
+@prefix model:            <http://data.sedgemoor.gov.uk/def/model/> .
+
+#
+@prefix dct:			  <http://purl.org/dc/terms/> .
+@prefix spec:             <http://data.sedgemore.gov.uk/api/cim#> .
+@prefix void:			  <http://rdfs.org/ns/void#> . 
+@prefix locn:             <http://www.w3.org/ns/locn#> .
+
+##
+## Epimorphics LDA extensions vocabulary
+##
+@prefix elda:			  <http://www.epimorphics.com/vocabularies/lda#> .
+
+<http://localhost:3030/cim/query> elda:supportsNestedSelect true.
+
+spec:api
+    api:base "/";
+    api:sparqlEndpoint  <http://localhost:3030/cim/query> ;
+#  Optional base URI for referencing XSLT/HTML stylesheet resources.
+    api:variable [ api:name "_resourceRoot"         ; api:value "/lda-assets/" ];
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/velocity
+    api:variable [api:name  "_velocityPath"         ; api:value "$APACHE_ROOT/lda-assets/velocity"] ;
+    api:variable [ api:name "visibleSparqlEndpoint" ; api:value "http://data.sedgemoor.gov.uk/sparql/cim/query" ];
+    api:variable [ api:name "visibleSparqlForm"     ; api:value "http://data.sedgemoor.gov.uk/qonsole.html" ];
+    .
+    
+#FORMATTERS
+
+#spec:HtmlFormatter
+#    a api:XsltFormatter ;
+#    api:name "html" ;
+#    api:mimeType "text/html";
+#    elda:metadataOptions "bindings,versions,execution,formats";
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/staging.xsl
+#    api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/staging.xsl" ; 
+#    . 
+
+spec:CsvFormatter
+    a api:XsltFormatter ;
+    api:name "csv" ;
+    api:mimeType "text/csv" ;
+    elda:metadataOptions "bindings,versions,execution,formats";  
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/csv.xsl
+    api:stylesheet "/$APACHE_ROOT/lda-assets/xslt/csv.xsl" ; 
+    .
+
+spec:VHtmlFormatter
+    a elda:VelocityFormatter
+    ; api:name "vhtml"
+    ; elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory"
+    ; api:mimeType "text/html"
+    .
+    
+spec:api api:defaultFormatter 
+   [a elda:VelocityFormatter ;
+    api:name "html" ;
+    api:mimeType "text/html" ;
+    elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory" 
+   ]
+   .
+
+spec:api
+	a api:API ;
+	rdfs:label "Community Impact Mitigation API"@en ;
+	api:maxPageSize "200";
+    api:lang    "en,none";
+    elda:enableETags true;
+    elda:cacheExpiryTime  "1h"; 
+##    elda:enableCounting "yes" ;
+	api:defaultPageSize "10" ;
+	api:variable [ api:name "_strip_has"; api:value "yes" ];
+	api:variable [ api:name "_suppress_ipto"; api:value "yes" ];
+##    api:variable [ api:name "_exceptionIfEmpty"; api:value "no" ];
+	api:defaultFormatter spec:HtmlFormatter ;
+    
+	api:formatter 
+#	  spec:HtmlFormatter,
+	  spec:CsvFormatter,
+	  spec:VHtmlFormatter ;
+	
+	api:endpoint
+        spec:anything
+      ;
+	.
+
+# Viewers #
+
+spec:noneViewer
+        a           api:Viewer  ;
+        api:name    "none";
+        .   
+
+##############################################################################################
+## Definitions
+##############################################################################################
+spec:anything
+  a api:ListEndpoint ;
+  rdfs:comment "Returns a list of things."@en;
+  api:uriTemplate "/anthing" ;
+  api:exampleRequestPath  "/anything";
+  api:selector [
+    api:where """?item a ?class . """
+  ];
+  api:viewer api:describeViewer, api:basicViewer, api:labelledDescribeViewer;
+  api:defaultViewer api:describeViewer;
+  .
+  
+spec:api    api:endpoint spec:definition .    
+spec:definition
+  a api:ItemEndpoint ;
+  rdfs:comment "Returns individual term definitions from a vocabulary"@en;
+  api:exampleRequestPath  "/def/project/Project";
+  api:uriTemplate "/def/{scheme}/{term}" ;
+  api:itemTemplate "http://data.sedgemoor.gov.uk/def/{scheme}/{term}" ;
+  api:viewer spec:definitionViewer, api:describeViewer, api:basicViewer;
+  api:defaultViewer api:describeViewer ;
+  .
+  
+spec:api    api:endpoint spec:definition2 .    
+spec:definition2
+  a api:ItemEndpoint ;
+  rdfs:comment "Returns individual term definitions from a controlled vocabulary"@en;
+  api:exampleRequestPath  "/def/impact/impact-category/1";
+  api:uriTemplate "/def/{scheme}/{vocab}/{term}" ;
+  api:itemTemplate "http://data.sedgemoor.gov.uk/def/{scheme}/{vocab}/{term}" ;
+  api:viewer spec:definitionViewer, api:describeViewer, api:basicViewer;
+  api:defaultViewer api:describeViewer ;
+  .
+  
+spec:api    api:endpoint       spec:communities .
+spec:communities
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/community";
+            api:name           "communities";
+            rdfs:comment       "Lists available communities ";
+            api:exampleRequestPath  "/communities";
+            api:selector [
+                api:where   "{ ?item  a community:Community }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:communityViewer ;
+            api:defaultViewer   spec:communityViewer ;         
+            .
+
+spec:api    api:endpoint       spec:community .
+spec:community
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/community/{id}";
+            api:name           "community";
+            rdfs:comment       "Returns data for a community";
+            api:exampleRequestPath  "/doc/community/community-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/community/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:communityViewer ;
+            api:defaultViewer   spec:communityViewer; 
+            . 
+            
+spec:communityViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community-classification.name,sameAs.label,seeAlso.*" ;
+            .       
+              
+spec:api    api:endpoint       spec:locations .
+spec:locations
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/location";
+            api:name           "locations";
+            rdfs:comment       "Lists available locations ";
+            api:exampleRequestPath  "/doc/locations";
+            api:selector [
+                api:where   "{ ?item  a dcterms:Location }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:describeViewer;         
+            .
+
+spec:api    api:endpoint       spec:location .
+spec:location
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/location/{id}";
+            api:name           "location";
+            rdfs:comment       "Returns data for a location";
+            api:exampleRequestPath  "/doc/location/location-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/location/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .
+             
+spec:api    api:endpoint       spec:predicted-impacts .
+spec:predicted-impacts
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/predicted-impact";
+            api:name           "predicted-impacts";
+            rdfs:comment       "Lists available impacts";
+            api:exampleRequestPath  "/doc/predicted-impact";
+            api:selector [
+                api:where   """{ 
+                    ?item  a impact:PredictedImpact .
+                    FILTER NOT EXISTS { ?item a version:Version . }
+                }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
+            .
+
+spec:api    api:endpoint       spec:predicted-impact .
+spec:predicted-impact
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/predicted-impact/{id}";
+            api:name           "predicted-impact";
+            rdfs:comment       "Returns data for an impact";
+            api:exampleRequestPath  "/doc/impact/predicted-impact-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
+            .
+
+spec:api    api:endpoint       spec:predictedImpactVersions .
+spec:predictedImpactVersions
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/predicted-impact/{id}/ver";
+            api:name           "predicted impact versions";
+            rdfs:comment       "Lists available versions of a predicted impact";
+            api:exampleRequestPath  "/doc/predicted-impact/1/ver";
+            api:variable [
+                api:name "perdurant"
+              ; api:value "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}"
+              ; api:type rdfs:Resource
+            ] ;
+            api:selector [
+                api:where  """{ ?item  a impact:PredictedImpact 
+                                   ;   dcterms:isVersionOf ?perdurant
+                                   .
+                              }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
+            . 
+
+spec:api    api:endpoint       spec:predictedImpactVersion .
+spec:predictedImpactVersion
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/predicted-impact/{id}/ver/{ver}";
+            api:name           "predicted impact version";
+            rdfs:comment       "Returns data for a predicted impact version";
+            api:exampleRequestPath  "/doc/predicted-impact/1/ver/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}/ver/{ver}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictedImpactViewer ;
+            api:defaultViewer   spec:predictedImpactViewer;         
+            . 
+                        
+spec:predictedImpactViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,impactCategory.label,impactOf.label,impactsOn.label,predictor.label,sameAs.label" ;
+            .  
+                       
+spec:api    api:endpoint       spec:projects .
+spec:projects
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/project";
+            api:name           "projects";
+            rdfs:comment       "Lists projects";
+            api:exampleRequestPath  "/doc/project";
+            api:selector [
+                api:where   "{ ?item  a project:Project }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:projectViewer ;
+            api:defaultViewer   spec:projectViewer;         
+            .
+
+spec:api    api:endpoint       spec:project .
+spec:project
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/project/{id}";
+            api:name           "project";
+            rdfs:comment       "Returns data for a project";
+            api:exampleRequestPath  "/doc/project/project-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/project/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:projectViewer ;
+            api:defaultViewer   spec:projectViewer;         
+            . 
+           
+spec:projectViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*, hasSubProject.label, hasParentProject.label, proposal.label, resources.label, resourcedBy.label,describedBy.isPartOf.label,describedBy.identifier,hasImpact.label,sameAs.label,operatesOn.label" ;
+            .    
+                       
+spec:api    api:endpoint       spec:proposals .
+spec:proposals
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/proposal";
+            api:name           "proposals";
+            rdfs:comment       "Lists proposals";
+            api:exampleRequestPath  "/doc/proposal";
+            api:selector [
+                api:where   "{ ?item  a project:Proposal }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:proposalViewer ;
+            api:defaultViewer   spec:proposalViewer;         
+            .
+
+spec:api    api:endpoint       spec:proposal .
+spec:proposal
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/proposal/{id}";
+            api:name           "proposal";
+            rdfs:comment       "Returns data for a proposal";
+            api:exampleRequestPath  "/doc/proposal/proposal-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/proposal/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:proposalViewer ;
+            api:defaultViewer   spec:proposalViewer;         
+            .
+            
+spec:proposalViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*, proposalStatus.label, describedBy.isPartOf.label, describedBy.identifier,proposedBy.label,proposedTo.label,requestsResourcesFrom.label,sameAs.label,community.label,mitigates.label" ;
+            .    
+                       
+spec:api    api:endpoint       spec:agents .
+spec:agents
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/agent";
+            api:name           "agents";
+            rdfs:comment       "Lists agents";
+            api:exampleRequestPath  "/doc/agent";
+            api:selector [
+                api:where   "{ ?item  a foaf:Agent }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:agentViewer ;
+            api:defaultViewer   spec:agentViewer;         
+            .
+
+spec:api    api:endpoint       spec:agent .
+spec:agent
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/agent/{id}";
+            api:name           "agent";
+            rdfs:comment       "Returns data for a proposal";
+            api:exampleRequestPath  "/doc/agent/agent-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/agent/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:agentViewer ;
+            api:defaultViewer   spec:agentViewer;         
+            . 
+            
+spec:agentViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*,seeAlso.*,sameAs.label,agent-category.label" ;
+            .    
+
+                       
+spec:api    api:endpoint       spec:resource-sources .
+spec:resource-sources
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/resource-source";
+            api:name           "resource-sources";
+            rdfs:comment       "Lists resource-sources";
+            api:exampleRequestPath  "/doc/resource-source";
+            api:selector [
+                api:where   "{ ?item  a project:ResourceSource }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .
+
+spec:api    api:endpoint       spec:resource-source .
+spec:resource-source
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/resource-source/{id}";
+            api:name           "resource-source";
+            rdfs:comment       "Returns data for a resource source";
+            api:exampleRequestPath  "/doc/resource-source/resource-source-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/resource-source/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            . 
+                                   
+spec:api    api:endpoint       spec:items .
+spec:items
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/item";
+            api:name           "items";
+            rdfs:comment       "Lists items";
+            api:exampleRequestPath  "/doc/item";
+            api:selector [
+                api:where   "{ ?item  a item:Item }";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .
+                
+
+spec:api    api:endpoint       spec:item .
+spec:item
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/item/{id}";
+            api:name           "item";
+            rdfs:comment       "Returns data for an item";
+            api:exampleRequestPath  "/doc/item/item-1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/item/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .     
+
+            
+###############################################################################
+# Labels
+###############################################################################
+# Common #
+
+rdf:Property api:label "Property" ;
+             a         rdfs:Class .
+
+rdf:type    api:label "type" ;  
+            api:multiValued true ;
+            rdfs:range rdfs:Class .
+
+rdf:value   api:label "value" .
+            
+rdfs:Class api:label "Class" ;
+           a         rdfs:Class .
+
+rdfs:label   api:label "label" ;
+             api:multiValued true ;
+             api:structured "true"^^xsd:boolean;
+             a rdf:Property .
+             
+rdfs:seeAlso api:label "seeAlso" ;
+             rdfs:range     rdfs:Resource .
+             
+rdfs:comment api:label "comment" ;
+             api:multiValued "false"^^xsd:boolean ;
+             api:structured "true"^^xsd:boolean;
+             a  rdf:Property .
+             
+rdfs:range   api:label "range" ;
+             rdfs:range rdfs:Resource .
+             
+rdfs:domain  api:label "domain";
+             rdfs:range rdfs:Resource .
+           
+rdfs:isDefinedBy api:label "isDefinedBy" ;
+             rdfs:range rdfs:Resource .
+             
+rdfs:subClassOf api:label "subClassOf" ;
+             rdfs:range rdfs:Class .
+             
+rdfs:subPropertyOf api:label "subPropertyOf" ;
+             rdfs:range rdf:Property .
+ 
+###############################################################################
+## OWL 
+###############################################################################
+owl:imports  api:label  "imports";
+             rdfs:range rdfs:Resource .
+             
+owl:onProperty
+             api:label  "onProperty";
+             rdfs:range rdf:Property .
+             
+owl:sameAs   api:label "sameAs" ;
+             rdfs:range rdfs:Resource .
+             
+owl:versionInfo
+            a           rdf:Property ;
+            api:label   "versionInfo";
+            .
+            
+owl:DatatypeProperty
+            a           owl:Class;
+            api:label   "DatatypeProperty";
+            .
+owl:ObjectProperty
+            a           owl:Class;
+            api:label   "ObjectProperty";
+            .
+
+###############################################################################
+## dcterms
+###############################################################################
+
+dcterms:description
+    a          rdf:Property
+  ; api:label "description"
+  .
+  
+dcterms:identifier
+    a          rdf:Property 
+  ; api:label  "identifier"
+  .
+  
+dcterms:title
+    a          rdf:Property
+  ; api:label  "title"
+  .
+  
+dcterms:isPartOf
+    a          rdf:Property
+  ; api:label  "isPartOf"
+  ; rdfs:range rdfs:Resource
+  .  
+  
+dcterms:hasPart
+    a          rdf:Property
+  ; api:label  "hasPart"
+  ; rdfs:range rdfs:Resource
+  .
+  
+  
+###############################################################################
+## SKOS
+###############################################################################
+skos:Concept api:label "Concept" ;
+             a         rdfs:Class .
+             
+skos:ConceptScheme 
+             api:label "ConceptScheme" ; 
+             a         rdfs:Class .
+
+skos:prefLabel
+            api:label "name" ;
+            api:structured "true"^^xsd:boolean;
+            a           rdf:Property .
+            
+skos:altLabel
+            api:label "alias" ; api:multiValued true ;
+            api:structured "true"^^xsd:boolean;
+            a         rdf:Property  .
+skos:note       api:label "note" ;
+            api:structured "true"^^xsd:boolean;
+            a         rdf:Property  .
+            
+skos:notation   a owl:DatatypeProperty; api:label "notation"  .
+
+skos:scopeNote  api:label "scopeNote" ;
+            api:structured "true"^^xsd:boolean;
+            a   rdf:Property  . 
+            
+skos:topConceptOf api:label "topConceptOf" ;
+            rdfs:range      skos:ConceptScheme .
+            
+skos:hasTopConcept api:label "topConcept" ; api:multiValued true ;
+            rdfs:range      skos:Concept .
+            
+skos:broader    api:label "broader" ; api:multiValued true ;
+             rdfs:range      skos:Concept .
+
+skos:narrower   api:label "narrower" ; api:multiValued true ;
+             rdfs:range      skos:Concept .
+            
+skos:definition a         rdf:Property;
+                api:label "definition" ;
+                api:structured  "true"^^xsd:boolean;
+                . 
+#                api:multiValued true .
+
+skos:inScheme
+            api:label "inScheme";
+            rdfs:range  skos:ConceptScheme .
+
+###############################################################################
+## geo
+###############################################################################
+
+geo:lat
+            a           rdf:Property ;
+            api:label   "lat";
+            rdfs:range  xsd:double ;
+            .
+geo:long
+            a           rdf:Property;
+            api:label   "long";
+            rdfs:range  xsd:double ;
+            .
+            
+###############################################################################
+## locn
+###############################################################################        
+   
+locn:location a rdf:Property
+    ;       api:label "location"
+    ;       rdfs:range rdfs:Resource
+    .
+          
+###############################################################################
+## wdrs
+###############################################################################     
+
+wdrs:describedBy
+    a            rdf:Property
+  ; api:label "describedBy"
+  ; rdfs:range rdfs:Resource
+  .
+
+###############################################################################
+## impact
+############################################################################### 
+
+impact:impactOf a rdf:Property
+  ; api:label "impactOf"
+  ; rdfs:range rdfs:Resource      
+  .
+  
+impact:hasImpact a rdf:Property
+  ; api:label "hasImpact"
+  ; rdfs:range rdfs:Resource
+  .
+  
+impact:impactsOn a rdf:Property
+  ; api:label "impactsOn"
+  ; rdfs:range rdfs:Resource
+  .
+  
+impact:impactedBy a rdf:Property
+  ; api:label "impactedBy"
+  ; rdfs:range rdfs:Resource
+  .
+  
+impact:impactCategory
+    a rdf:Property
+  ; api:label "impactCategory"
+  ; rdfs:range rdfs:Resource
+  .
+
+impact:mitigates
+    a rdf:Property
+  ; api:label "mitigates"
+  ; rdfs:range rdfs:Resource
+  .
+
+###############################################################################
+## agent
+############################################################################### 
+  
+agent:category a rdf:Property
+  ; api:label "agent-category"
+  ; rdfs:range rdfs:Resource
+  .
+  
+###############################################################################
+## community
+############################################################################### 
+  
+community:classification a rdf:Property
+  ; api:label "community-classification"
+  ; rdfs:range rdfs:Resource
+  . 
+  
+community:community a rdf:Property
+  ; api:label "community"
+  ; rdfs:range rdfs:Resource
+  .
+  
+###############################################################################
+## item
+############################################################################### 
+  
+item:category a rdf:Property
+  ; api:label "i"
+  ; rdfs:range rdfs:Resource
+  .
+  
+###############################################################################
+## project
+############################################################################### 
+  
+project:hasSubProject
+    a          rdf:Property
+  ; api:label  "hasSubProject"
+  ; rdfs:range rdfs:Resource
+  .
+  
+project:hasParentProject
+    a          rdf:Property
+  ; api:label  "hasParentProject"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:expectedStart
+    a          rdf:Property
+  ; api:label  "expectedStart"
+  .
+
+project:expectedEnd
+    a          rdf:Property
+  ; api:label  "expectedEnd"
+  .
+
+project:actualStart
+    a          rdf:Property
+  ; api:label  "actualStart"
+  .
+
+project:actualEnd
+    a          rdf:Property
+  ; api:label  "actualEnd"
+  .
+
+project:proposalStatus
+    a          rdf:Property
+  ; api:label  "proposalStatus"
+  .
+
+project:proposedBy
+    a          rdf:Property
+  ; api:label  "proposedBy"
+  .
+
+project:proposedTo
+    a          rdf:Property
+  ; api:label  "proposedTo"
+  .
+
+project:requestsResourcesFrom
+    a          rdf:Property
+  ; api:label  "requestsResourcesFrom"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:proposal
+    a          rdf:Property
+  ; api:label  "proposal"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:resources
+    a          rdf:Property
+  ; api:label  "resources"
+  ; rdfs:range rdfs:Resource
+  .
+
+project:resourcedBy
+    a          rdf:Property
+  ; api:label  "resourcedBy"
+  ; rdfs:range rdfs:Resource
+  .
+  
+project:operatesOn
+    a          rdf:Property
+  ; api:label  "operatesOn"
+  ; rdfs:range rdfs:Resource
+  .
+
+###############################################################################
+## Version
+###############################################################################
+
+version:identifier
+    a         rdf:Property
+  ; api:label "versionIdentifier"
+  .
+  
+version:date
+    a         rdf:Property
+  ; api:label "versionDate"
+  .
+  
+###############################################################################
+## Model
+###############################################################################
+
+model:predictor
+    a         rdf:Property
+  ; api:label "predictor"
+  ; rdfs:range rdfs:Resource
+  .

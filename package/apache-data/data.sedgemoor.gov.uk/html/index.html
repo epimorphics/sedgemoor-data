@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sedgemoor Data Service</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  	<div>  	
+  	  <A href="http://www.sedgemoor.gov.uk/" name="SedgemoorLogo" title="Link to Sedgemoor Homepage" id="sedgemoorLogo"><IMG src="/img/sedgemoor-logo.png" alt="Sedgemoor District Council"></a>
+    </div>
+  	<nav class="navbar navbar-inverse" role="navigation">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+	    <div class="navbar-header">/lda-assets \
+	      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	        <span class="sr-only">Toggle navigation</span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	        <span class="icon-bar"></span>
+	      </button>
+	  	  <a class="navbar-brand" href="#">Linked Data Prototype</a>
+	    </div>
+
+	    <!-- Collect the nav linkld/s, forms, and other content for toggling -->
+	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	      <ul class="nav navbar-nav">
+	        <li class="active"><a href="#">Home</a></li>
+	        <li class="dropdown">
+                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Data <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/id/predicted-impact"> Predicted Impacts</a></li>
+                    <li><a href="/id/community"> Communities</a></li>
+                    <li><a href="/id/project"> Projects</a></li>
+                    <li><a href="/id/location"> Locations</a></li>
+                    <li><a href="/id/proposal"> Proposals</a></li>
+                    <li><a href="/id/resource-source"> Resource Sources</a></li>
+                    <li><a href="/id/agent"> Agents</a></li>
+                    <li><a href="/id/item"> Items </a></li> 
+                </ul>
+            </li>
+            <li><a href="qonsole.html"> SPARQL Form </a></li>
+	        <li><a href="overview.pdf"> Ontology Overview </a></li>
+	        <li><a href="owldoc/index.html"> OwlDoc </a></li>
+	        <li><a href="/webpage-demo.html">Accessing the data from within a Web page</a></li>
+	      </ul>
+	    </div><!-- /.navbar-collapse -->
+	  </div><!-- /.container-fluid -->
+	</nav>
+	
+	<div class="container-fluid" style="max-width: 1024px">
+      <div class="row" style="margin-left: 1ex; margin-right: 1ex">
+	
+      <p>This is a development system accessing test data.</p>
+      
+      <p>
+        The data drop down menu links to lists of resources of a particular type.
+      </p>
+      <p>
+        The Ontology tab links to automatically generated documentation for the
+        ontology used in the data.
+      </p>
+      <p>
+        The last tab links to a page that illustrates how
+        the data may be retrieved using a script in a web page.   
+      </p>
+  
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+</html>
