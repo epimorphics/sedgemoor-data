@@ -27,7 +27,7 @@ owl:Class</FONT></TD></TR></TABLE>
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
 <IMG border="0" src="icons/gb.gif" width="16" height="16"></TD><TD><FONT size="-1">
-The class of proposals. A distinction is made between a proposal and a document or set of documents that describe the proposal.   Instances of the class :Proposal correspond to the action of making or submitting a proposal.  The wdrs:describedby property may be used to relate a proposal to one or more documents that describe the proposal that is made.
+The class of proposals. A distinction is made between a proposal and a document or set of documents that describe the proposal.   Instances of the class :Proposal correspond to the action of making or submitting a proposal.  The wdrs:describedby property may be used to relate a proposal to one or more documents that describe the proposal that is made. The property community:community may be used to relate a proposal to a community to which the proposal is relevant.
 </FONT></TD></TR></TABLE>
 </DD>
 </DL>
@@ -55,8 +55,8 @@ owl:Thing</FONT></TD></TR></TABLE>
 </DD>
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
-<IMG border="0" src="icons/OWLCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-project:proposalStatus exactly 1
+<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
+project:requestsResourcesFrom min 0
 </FONT></TD></TR></TABLE>
 </DD>
 <DD>
@@ -68,19 +68,25 @@ impact:mitigates min 0
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
 <IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
+project:proposedTo min 1
+</FONT></TD></TR></TABLE>
+</DD>
+<DD>
+<TABLE><TR><TD VALIGN="TOP">
+<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
+wdrs:describedby min 0
+</FONT></TD></TR></TABLE>
+</DD>
+<DD>
+<TABLE><TR><TD VALIGN="TOP">
+<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
 rdfs:label min 0
 </FONT></TD></TR></TABLE>
 </DD>
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
 <IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-project:requestsResourcesFrom min 0
-</FONT></TD></TR></TABLE>
-</DD>
-<DD>
-<TABLE><TR><TD VALIGN="TOP">
-<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-project:proposedTo min 1
+community:community min 0
 </FONT></TD></TR></TABLE>
 </DD>
 <DD>
@@ -97,8 +103,8 @@ dcterms:description min 0
 </DD>
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
-<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-wdsr:describedby min 0
+<IMG border="0" src="icons/OWLCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
+project:proposalStatus exactly 1
 </FONT></TD></TR></TABLE>
 </DD>
 </DL>
