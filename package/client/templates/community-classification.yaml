@@ -98,7 +98,7 @@
     template   : skos_concept 
 
 - name                  : skos_concept
-  "@id"                 : <{$base}/{level}>
+  "@id"                 : <http://data.sedgemoor.gov.uk/def/community/{level}>
   <rdf:type>            : <community:Classification>
   <rdfs:label>          : "{name}@en"
   <skos:prefLabel>      : "{name}@en"

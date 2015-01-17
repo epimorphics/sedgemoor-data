@@ -60,7 +60,7 @@ spec:api
 #    api:name "html" ;
 #    api:mimeType "text/html";
 #    elda:metadataOptions "bindings,versions,execution,formats";
-# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/staging.xsl
+## note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/staging.xsl
 #    api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/staging.xsl" ; 
 #    . 
 
@@ -75,19 +75,11 @@ spec:CsvFormatter
 
 spec:VHtmlFormatter
     a elda:VelocityFormatter
-    ; api:name "vhtml"
+    ; api:name "html"
     ; elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory"
     ; api:mimeType "text/html"
     .
-    
-spec:api api:defaultFormatter 
-   [a elda:VelocityFormatter ;
-    api:name "html" ;
-    api:mimeType "text/html" ;
-    elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory" 
-   ]
-   .
-
+ 
 spec:api
 	a api:API ;
 	rdfs:label "Community Impact Mitigation API"@en ;
@@ -100,12 +92,12 @@ spec:api
 	api:variable [ api:name "_strip_has"; api:value "yes" ];
 	api:variable [ api:name "_suppress_ipto"; api:value "yes" ];
 ##    api:variable [ api:name "_exceptionIfEmpty"; api:value "no" ];
-	api:defaultFormatter spec:HtmlFormatter ;
+	api:defaultFormatter spec:VHtmlFormatter ;
     
 	api:formatter 
-#	  spec:HtmlFormatter,
-	  spec:CsvFormatter,
-	  spec:VHtmlFormatter ;
+	   spec:CsvFormatter
+     , spec:VHtmlFormatter
+      ;
 	
 	api:endpoint
         spec:anything
@@ -152,7 +144,7 @@ spec:definition2
   api:exampleRequestPath  "/def/impact/impact-category/1";
   api:uriTemplate "/def/{scheme}/{vocab}/{term}" ;
   api:itemTemplate "http://data.sedgemoor.gov.uk/def/{scheme}/{vocab}/{term}" ;
-  api:viewer spec:definitionViewer, api:describeViewer, api:basicViewer;
+  api:viewer api:describeViewer, api:basicViewer;
   api:defaultViewer api:describeViewer ;
   .
   
@@ -188,7 +180,7 @@ spec:community
 spec:communityViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community-classification.name,sameAs.label,seeAlso.*" ;
+            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community_classification.name,sameAs.label,seeAlso.*" ;
             .       
               
 spec:api    api:endpoint       spec:locations .
@@ -395,7 +387,7 @@ spec:agent
 spec:agentViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,seeAlso.*,sameAs.label,agent-category.label" ;
+            api:properties    "*,seeAlso.*,sameAs.label,agent_category.label" ;
             .    
 
                        
@@ -685,7 +677,7 @@ impact:mitigates
 ############################################################################### 
   
 agent:category a rdf:Property
-  ; api:label "agent-category"
+  ; api:label "agent_category"
   ; rdfs:range rdfs:Resource
   .
   
@@ -694,7 +686,7 @@ agent:category a rdf:Property
 ############################################################################### 
   
 community:classification a rdf:Property
-  ; api:label "community-classification"
+  ; api:label "community_classification"
   ; rdfs:range rdfs:Resource
   . 
   

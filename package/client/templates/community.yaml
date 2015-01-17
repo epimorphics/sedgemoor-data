@@ -24,7 +24,7 @@
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
      <locn:location>            : <{$base}{location}>
-     <community:classification> : <community:community-classification/{classification}>
+     <community:classification> : <community:{classification}>
      <dcterms:isPartOf>         : <{$base}{part_of}>
      ^<dcterms:hasPart>         : <{$base}{part_of}> 
      <owl:sameAs>               : <{same_as}>     
