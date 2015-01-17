@@ -28,6 +28,11 @@ model:Prediction
       owl:minCardinality "0"^^xsd:nonNegativeInteger ;
       owl:onProperty model:isAssumedBy ;
     ] ;
+  rdfs:subClassOf [
+      rdf:type owl:Restriction ;
+      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
+      owl:onProperty model:predictor ;
+    ] ;
 .
 model:assumes
   rdf:type owl:ObjectProperty ;

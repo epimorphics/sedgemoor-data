@@ -74,7 +74,7 @@ impact:ImpactCategory
 impact:PredictedImpact
   rdf:type owl:Class ;
   rdfs:comment "The class of predicated impacts.  A predicted impact is a predication of an impact.  A predicated impact is typically  predicted to happen in the future."@en ;
-  rdfs:label "Actual impact"@en ;
+  rdfs:label "Predicted impact"@en ;
   rdfs:subClassOf impact:Impact ;
   rdfs:subClassOf <http://data.sedgemoor.gov.uk/def/model/Prediction> ;
 .
@@ -142,11 +142,4 @@ impact:narrowerImpact
   rdfs:domain impact:Impact ;
   rdfs:label "narrower impact"@en ;
   rdfs:range impact:Impact ;
-.
-<http://data.sedgemoor.gov.uk/def/model/Prediction>
-  rdfs:subClassOf [
-      rdf:type owl:Restriction ;
-      owl:minCardinality "0"^^xsd:nonNegativeInteger ;
-      owl:onProperty <http://data.sedgemoor.gov.uk/def/model/predictor> ;
-    ] ;
 .

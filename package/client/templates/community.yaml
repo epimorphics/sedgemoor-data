@@ -28,11 +28,15 @@
      <dcterms:isPartOf>         : <{$base}{part_of}>
      ^<dcterms:hasPart>         : <{$base}{part_of}> 
      <owl:sameAs>               : <{same_as}>     
-     <rdfs:seeAlso>             : |
+     <rdfs:seeAlso>             : |       
        <{ { 
-         if ( reference_uri != null) {
+         if ( reference != null) {
            if (reference_section == null) {
-             return reference_uri.asString() ;
+             if (reference_version == null) {
+                 return $base.value.concat(reference.value.toString())
+             } else {
+               return $base.value.concat(reference.value.toString()).concat('/ver/').concat(reference_version.value.toString())
+             }
            } else {
              return $row.bnode ;
            }
@@ -52,7 +56,14 @@
            return null
          }
        } }>
-     <dcterms:isPartOf>         : <{reference_uri}>
+     <dcterms:isPartOf>         : |
+       <{ {
+             if (reference_version == null) {
+                 return $base.value.concat(reference.value.toString())
+             } else {
+               return $base.value.concat(reference.value.toString()).concat('/ver/').concat(reference_version.value.toString())
+             }
+       } }>
      <dcterms:identifier>       : "{reference_section}"
        
      

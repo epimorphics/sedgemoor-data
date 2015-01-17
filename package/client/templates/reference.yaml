@@ -13,17 +13,32 @@
     geo-sparql : http://www.opengis.net/def/geosparql/
     geo        : http://www.w3.org/2003/01/geo/wgs84_pos#
     xsd        : http://www.w3.org/2001/XMLSchema#
+    version    : http://data.sedgemoor.gov.uk/def/version/
     
   templates : 
-   - name                  : reference
-     "@id"                 : <{uri}>
-     <rdfs:label>          : "{title}@en"
-     <dcterms:title>       : "{title}@en"
-     <dcterms:description> : "{description}@en"
-     <owl:sameAs>          : <{same_as}>
+   - name                       : reference_current_version
+     "@id"                      : <{{ if (version == null) { return "" ; } else { return null } }}{$base}{identifier}>
+     <rdf:type>                 : <foaf:Document>
+     <version:date>             : "{version_date}^^xsd:date"
+     <rdfs:label>               : "{title}@en"
+     <dcterms:title>            : "{title}@en"
+     <dcterms:description>      : "{description}@en"
+     <rdfs:seeAlso>             : <{url}>
+     <owl:sameAs>               : <{same_as}>
      
-   - name                  : sameAs
-     "@id"                 : <{same_as}>
-     <rdfs:label>          : "{same_as_name}"    
+   - name                       : reference_version
+     "@id"                      : <{$base}{identifier}/ver/{version}>
+     <dcterms:isVersionOf>      : <{$base}{identifier}>
+     ^<dcterms:hasVersion>      : <{$base}{identifier}>
+     <version:date>             : "{version_date}^^xsd:date"
+     <rdfs:label>               : "{title}@en"
+     <dcterms:title>            : "{title}@en"
+     <dcterms:description>      : "{description}@en"
+     <rdfs:seeAlso>             : <{url}>
+     <owl:sameAs>               : <{same_as}>
+     
+   - name                       : sameAs
+     "@id"                      : <{same_as}>
+     <rdfs:label>               : "{same_as_name}"    
      
 
