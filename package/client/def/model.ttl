@@ -21,12 +21,12 @@ model:Prediction
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
       owl:minCardinality "0"^^xsd:nonNegativeInteger ;
-      owl:onProperty model:assumes ;
+      owl:onProperty model:influencedBy ;
     ] ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
       owl:minCardinality "0"^^xsd:nonNegativeInteger ;
-      owl:onProperty model:isAssumedBy ;
+      owl:onProperty model:influences ;
     ] ;
   rdfs:subClassOf [
       rdf:type owl:Restriction ;
@@ -40,7 +40,24 @@ model:assumes
   rdfs:domain rdfs:Resource ;
   rdfs:label "assumes"@en ;
   rdfs:range rdfs:Resource ;
+  rdfs:subPropertyOf model:influencedBy ;
   owl:inverseOf model:isAssumedBy ;
+.
+model:influencedBy
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :influencedBy relates a resource to another resource that influences it.  The property may be used to relate predictions."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "influenced by"@en ;
+  rdfs:range rdfs:Resource ;
+  owl:inverseOf model:influences ;
+.
+model:influences
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The property :influencedBy relates a resource to another resource that influences it.  The property may be used to relate predictions."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "influenced by"@en ;
+  rdfs:range rdfs:Resource ;
+  owl:inverseOf model:influencedBy ;
 .
 model:isAssumedBy
   rdf:type owl:ObjectProperty ;

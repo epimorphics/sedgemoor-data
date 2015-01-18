@@ -1,5 +1,5 @@
   name         : impact
-  description  : Template for translating impacts to RDF
+  description  : Template for translating predictions to RDF
 
   type:  Composite
   bind: 
@@ -23,14 +23,9 @@
    - name                       : current_version
      "@id"                      : <{{ if (version == null) { return "" ; } else { return null } }}{$base}{identifier}>
      <version:date>             : "{version_date}^^xsd:date"
-     <rdf:type>                 : <impact:PredictedImpact>
+     <rdf:type>                 : <impact:Prediction>
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
-     <impact:impactOf>          : <{$base}{impact_of}>
-     ^<impact:hasImpact>        : <{$base}{impact_of}>
-     <impact:impactsOn>         : <{$base}{impacts_on}>
-     ^<impact:impactedBy>       : <{$base}{impacts_on}>
-     <impact:impactCategory>    : <impact:{impact_category}>
      <model:predictor>          : <{$base}{predicted_by}>
      <model:influencedBy>       : <{$base}{influenced_by}>
      <wdrs:describedBy>         : |
@@ -59,16 +54,11 @@
      ^<dcterms:hasVersion>      : <{$base}{identifier}>
      <version:date>             : "{version_date}^^xsd:date"
      <rdf:type>                 : 
-                                  - <impact:PredictedImpact> 
+                                  - <impact:Prediction> 
                                   - <version:Version>
      <version:identifier>       : "{ { version.asString()} }"
      <rdfs:label>               : "{name}@en"
      <dcterms:description>      : "{description}@en"
-     <impact:impactOf>          : <{$base}{impact_of}>
-     <impact:impactsOn>         : <{$base}{impacts_on}>
-     ^<impact:impactedBy>       : <{$base}{impacts_on}>
-     <impact:impactCategory>    : <impact:{impact_category}>
-     <model:predictor>          : <{$base}{predicted_by}>
      <model:influencedBy>       : <{$base}{influenced_by}>
      <wdrs:describedBy>         : |
        <{ { 

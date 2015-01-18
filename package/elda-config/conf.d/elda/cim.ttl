@@ -245,7 +245,7 @@ spec:predicted-impact
             api:uriTemplate    "/doc/predicted-impact/{id}";
             api:name           "predicted-impact";
             rdfs:comment       "Returns data for an impact";
-            api:exampleRequestPath  "/doc/impact/predicted-impact-1";
+            api:exampleRequestPath  "/doc/predicted-impact/1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/predicted-impact/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
             api:viewer          spec:predictedImpactViewer ;
@@ -292,7 +292,82 @@ spec:predictedImpactVersion
 spec:predictedImpactViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,impactCategory.label,impactOf.label,impactsOn.label,predictor.label,sameAs.label,describedBy.label,describedBy.identifier,describedBy.isPartOf.label" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,impactCategory.label,impactOf.label,impactsOn.label,predictor.label,sameAs.label,describedBy.label,influencedBy.label,influences.label" ;
+            .  
+                      
+spec:api    api:endpoint       spec:predictions .
+spec:predictions
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/prediction";
+            api:name           "prediction";
+            rdfs:comment       "Lists available predictions";
+            api:exampleRequestPath  "/doc/prediction";
+            api:selector [
+                api:where   """{ 
+                    ?item  a impact:Prediction .
+                    FILTER NOT EXISTS { ?item a version:Version . }
+                }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictiontViewer ;
+            api:defaultViewer   spec:predictionViewer;         
+            .
+
+spec:api    api:endpoint       spec:prediction .
+spec:prediction
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/prediction/{id}";
+            api:name           "prediction";
+            rdfs:comment       "Returns data for a prediction";
+            api:exampleRequestPath  "/doc/prediction/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/prediction/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictionViewer ;
+            api:defaultViewer   spec:predictionViewer;         
+            .
+
+spec:api    api:endpoint       spec:predictionVersions .
+spec:predictionVersions
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/prediction/{id}/ver";
+            api:name           "prediction versions";
+            rdfs:comment       "Lists available versions of a prediction";
+            api:exampleRequestPath  "/doc/prediction/1/ver";
+            api:variable [
+                api:name "perdurant"
+              ; api:value "http://data.sedgemoor.gov.uk/id/prediction/{id}"
+              ; api:type rdfs:Resource
+            ] ;
+            api:selector [
+                api:where  """{ ?item  a impact:Prediction
+                                   ;   dcterms:isVersionOf ?perdurant
+                                   .
+                              }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictionViewer ;
+            api:defaultViewer   spec:predictionViewer;         
+            . 
+
+spec:api    api:endpoint       spec:predictionVersion .
+spec:predictionVersion
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/prediction/{id}/ver/{ver}";
+            api:name           "prediction version";
+            rdfs:comment       "Returns data for a prediction version";
+            api:exampleRequestPath  "/doc/prediction/1/ver/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/prediction/{id}/ver/{ver}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:predictionViewer ;
+            api:defaultViewer   spec:predictionViewer;         
+            . 
+                        
+spec:predictionViewer
+            a                 api:Viewer ;
+            api:name          "normal" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,predictor.label,sameAs.label,describedBy.label,influencedBy.label,influences.label" ;
             .  
                        
 spec:api    api:endpoint       spec:projects .
@@ -887,3 +962,24 @@ model:predictor
   ; api:label "predictor"
   ; rdfs:range rdfs:Resource
   .
+model:influencedBy
+    a         rdf:Property
+  ; api:label "influencedBy"
+  ; rdfs:range rdfs:Resource
+  .
+model:influences
+    a         rdf:Property
+  ; api:label "influences"
+  ; rdfs:range rdfs:Resource
+  .
+model:assumes
+    a         rdf:Property
+  ; api:label "assumes"
+  ; rdfs:range rdfs:Resource
+  .
+model:assumedBy
+    a         rdf:Property
+  ; api:label "assumedBy"
+  ; rdfs:range rdfs:Resource
+  .
+
