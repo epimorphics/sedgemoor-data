@@ -79,6 +79,15 @@ spec:VHtmlFormatter
     ; elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory"
     ; api:mimeType "text/html"
     .
+    
+spec:XmlFormatter
+    a api:XsltFormatter ;
+    api:name "xml" ;
+    api:mimeType "application/xml" ;
+    elda:metadataOptions "bindings,versions,execution,formats";  
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/xml-result.xsl
+    api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/xml-result.xsl" ; 
+    .
  
 spec:api
 	a api:API ;
@@ -97,6 +106,7 @@ spec:api
 	api:formatter 
 	   spec:CsvFormatter
      , spec:VHtmlFormatter
+     , spec:XmlFormatter
       ;
 	
 	api:endpoint

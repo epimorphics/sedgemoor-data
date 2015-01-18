@@ -79,6 +79,15 @@ spec:VHtmlFormatter
     ; elda:className "com.epimorphics.lda.renderers.VelocityRendererFactory"
     ; api:mimeType "text/html"
     .
+    
+spec:XmlFormatter
+    a api:XsltFormatter ;
+    api:name "xml" ;
+    api:mimeType "application/xml" ;
+    elda:metadataOptions "bindings,versions,execution,formats";  
+# note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/xml-result.xsl
+    api:stylesheet "$APACHE_ROOT/lda-assets/xslt/xml-result.xsl" ; 
+    .
  
 spec:api
 	a api:API ;
@@ -97,6 +106,7 @@ spec:api
 	api:formatter 
 	   spec:CsvFormatter
      , spec:VHtmlFormatter
+     , spec:XmlFormatter
       ;
 	
 	api:endpoint
@@ -180,7 +190,7 @@ spec:community
 spec:communityViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community_classification.name,sameAs.label,seeAlso.*" ;
+            api:properties    "*,location.label,location.description,location.lat,location.long,impactedBy.label,community_classification.name,sameAs.label,seeAlso.label,seeAlso.identifier,seeAlso.isPartOf.label" ;
             .       
               
 spec:api    api:endpoint       spec:locations .
@@ -194,8 +204,8 @@ spec:locations
                 api:where   "{ ?item  a dcterms:Location }";
                 api:orderBy "STR(?item)"; 
             ];
-            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
-            api:defaultViewer   api:describeViewer;         
+            api:viewer          api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
             .
 
 spec:api    api:endpoint       spec:location .
@@ -206,7 +216,7 @@ spec:location
             rdfs:comment       "Returns data for a location";
             api:exampleRequestPath  "/doc/location/location-1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/location/{id}" ;      
-            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          api:describeViewer, api:labelledDescribeViewer;
             api:defaultViewer   api:labelledDescribeViewer;         
             .
              
@@ -282,7 +292,7 @@ spec:predictedImpactVersion
 spec:predictedImpactViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,impactCategory.label,impactOf.label,impactsOn.label,predictor.label,sameAs.label" ;
+            api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,impactCategory.label,impactOf.label,impactsOn.label,predictor.label,sameAs.label,describedBy.label,describedBy.identifier,describedBy.isPartOf.label" ;
             .  
                        
 spec:api    api:endpoint       spec:projects .
@@ -387,7 +397,7 @@ spec:agent
 spec:agentViewer
             a                 api:Viewer ;
             api:name          "normal" ;
-            api:properties    "*,seeAlso.*,sameAs.label,agent_category.label" ;
+            api:properties    "*,seeAlso.label,seeAlso.identifier,seeAlso.isPartOf,sameAs.label,agent_category.label" ;
             .    
 
                        
@@ -440,13 +450,82 @@ spec:item
             api:uriTemplate    "/doc/item/{id}";
             api:name           "item";
             rdfs:comment       "Returns data for an item";
-            api:exampleRequestPath  "/doc/item/item-1";
+            api:exampleRequestPath  "/doc/item/1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/item/{id}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
             api:defaultViewer   api:labelledDescribeViewer;         
             .     
 
-            
+                                   
+spec:api    api:endpoint       spec:references .
+spec:references
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/reference";
+            api:name           "items";
+            rdfs:comment       "Lists references";
+            api:exampleRequestPath  "/doc/reference";
+            api:selector [
+                api:where   """{ 
+                  ?item  a foaf:Document .
+                  FILTER NOT EXISTS {
+                    ?item dcterms:isVersionOf ?other .
+                  }
+                }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .
+                
+
+spec:api    api:endpoint       spec:reference .
+spec:reference
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/reference/{id}";
+            api:name           "reference";
+            rdfs:comment       "Returns data for an item";
+            api:exampleRequestPath  "/doc/reference/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/reference/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .        
+
+                                   
+spec:api    api:endpoint       spec:referenceVersions .
+spec:referenceVersions
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/reference/{id}/ver";
+            api:name           "items";
+            rdfs:comment       "Lists references";
+            api:exampleRequestPath  "/id/reference/1/ver";
+            api:variable [
+                api:name "perdurant"
+              ; api:value "http://data.sedgemoor.gov.uk/id/reference/{id}"
+              ; api:type rdfs:Resource
+            ] ;
+            api:selector [
+                api:where  """{ 
+                                 ?item  dcterms:isVersionOf ?perdurant                                   .
+                              }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .
+                
+
+spec:api    api:endpoint       spec:referenceVersion .
+spec:referenceVersion
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/reference/{id}/ver/{ver}";
+            api:name           "reference";
+            rdfs:comment       "Returns data for an item";
+            api:exampleRequestPath  "/doc/reference/1/ver/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/reference/{id}/ver/{ver}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:defaultViewer   api:labelledDescribeViewer;         
+            .     
+        
 ###############################################################################
 # Labels
 ###############################################################################
