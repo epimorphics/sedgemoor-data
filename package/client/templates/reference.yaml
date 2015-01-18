@@ -23,7 +23,7 @@
      <rdfs:label>               : "{title}@en"
      <dcterms:title>            : "{title}@en"
      <dcterms:description>      : "{description}@en"
-     <rdfs:seeAlso>             : <{url}>
+     <rdfs:hasFormat>           : <{url}>
      <owl:sameAs>               : <{same_as}>
      
    - name                       : reference_version
@@ -34,7 +34,7 @@
      <rdfs:label>               : "{title}@en"
      <dcterms:title>            : "{title}@en"
      <dcterms:description>      : "{description}@en"
-     <rdfs:seeAlso>             : <{url}>
+     <rdfs:hasFormat>           : <{url}>
      <owl:sameAs>               : <{same_as}>
      
    - name                       : sameAs
