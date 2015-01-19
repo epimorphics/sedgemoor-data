@@ -53,7 +53,7 @@
       // configuration
       var config = {
         endpoints: {
-          "default": "http://data.sedgemoor.gov.uk/sparql/$DATASET/query",
+          "default": "http://data.sedgemoor.gov.uk/sparql/cim/query",
         },
         prefixes: {
           "rdf":        "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -80,6 +80,45 @@
                      "  ?s a ?class .\n" +
                      "}\n" +
                      "LIMIT 10\n"
+          },
+          {
+            "name":  "List locations with impact count(1)",
+            "query": "# List all locations\n" +
+                     "# and the number of impacts on communities at that location\n" +
+                     "#   + the number of impacts on communities within communities at that location\n" +
+                     "\n" +
+                     "SELECT DISTINCT ?location ?locationLabel ?locationDescription ?impactCount {\n" +
+                     "  ?location a dcterms:Location .\n" +
+                     "  OPTIONAL {?location rdfs:label ?locationLabel }\n" +
+                     "  OPTIONAL {?location dcterms:description ?locationDescription}\n" +
+                     "\n" +
+                     "  {\n" +
+                     "    SELECT ?location (COUNT(DISTINCT ?impact) AS ?impactCount) {\n" +
+                     "      ?community locn:location ?location .\n" +
+                     "      ?subCommunity dcterms:isPartOf* ?community .\n" +
+                     "      ?subCommunity impact:impactedBy ?impact .\n" +
+                     "     } GROUP By ?location\n" +
+                     "  }\n" +
+                     "}\n"            
+          },
+          {
+            "name":  "List locations with impact count(2)",
+            "query": "# List all locations\n" +
+                     "#  and the number of impacts on communities that contain communities at the given location\n" +
+                     "\n" +
+                     "SELECT DISTINCT ?location ?locationLabel ?locationDescription ?impactCount {\n" +
+                     "  ?location a dcterms:Location .\n" +
+                     "  OPTIONAL {?location rdfs:label ?locationLabel }\n" +
+                     "  OPTIONAL {?location dcterms:description ?locationDescription}\n" +
+                     "\n" +
+                     "  {\n" +
+                     "    SELECT ?location (COUNT(DISTINCT ?impact) AS ?impactCount) {\n" +
+                     "      ?community locn:location ?location .\n" +
+                     "      ?superCommunity dcterms:hasPart+ ?community .\n" +
+                     "      ?superCommunity impact:impactedBy ?impact .\n" +
+                     "     } GROUP By ?location\n" +
+                     "  }\n" +
+                     "}\n"            
           }
         ]
         };
@@ -168,7 +207,7 @@
           <div class="well">
             <div class="row">
               <div class="col-md-12">
-                <span class="loadingSpinner hidden">
+                <span class="loadingSpinner hidden">edg
                   <img src="img/wait30.gif" alt="waiting for server action to complete" />
                 </span>
                 <span class="timeTaken hidden"></span>
