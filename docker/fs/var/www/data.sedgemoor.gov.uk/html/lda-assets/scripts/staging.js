@@ -2,21 +2,18 @@
 // which do match urlPattern to point to the same server as this document
 // Assumes jQuery
 $(function() {
-    var hostPattern = /^https?:\/\/([^\/]*)/;
-    var pathPattern = /^https?:\/\/[^\/]*(.*)/;
-    var schemePattern = /(^https?:\/\/).*/;
-    var contextPath	  = "" ;
-    
-    var url = document.URL;
-    var requestHost = url.match(hostPattern)[1];
-    var requestScheme = url.match(schemePattern)[1];
-    
-    $("a[href]").each ( function (a) {
-         var targetHost = this.href.match(hostPattern)[1];
-         var targetPath = this.href.match(pathPattern)[1];
-         
-         if(targetHost == "data.sedgemoor.gov.uk") {
-             this.href = this.href.replace(this.href,requestScheme+requestHost+contextPath+targetPath) ;
-         };   
-    });
+	var urlPattern = /^http:\/\/(environment|location)\.data\.gov\.uk/;
+    var hostPattern = /(^https?:\/\/[^\/]*)/
+	var url = document.URL;
+	var apiBaseOffset = url.indexOf("/api");
+	var host = hostPattern.exec(url)[1];
+	var apiBase = apiBaseOffset>0 ?	apiBase = url.slice(0,apiBaseOffset+4) : host;
+		
+	$("a[href]^=http://").not($("a[href^="+host+"]")).each( function(a) {
+	//Rewrite any <a href=.../> that don't refer back to this page
+	   if(this.href.indexOf(host)!=0) {
+		  var replacement = /.*[?&=#].*/.test(this.href) ? encodeURIComponent(this.href) : encodeURI(this.href); 
+		  this.href = this.href.replace(this.href,apiBase+"/thing?resource="+replacement);
+	  }
+	});
 });
