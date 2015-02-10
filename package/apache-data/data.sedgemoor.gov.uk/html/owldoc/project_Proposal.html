@@ -27,7 +27,7 @@ owl:Class</FONT></TD></TR></TABLE>
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
 <IMG border="0" src="icons/gb.gif" width="16" height="16"></TD><TD><FONT size="-1">
-The class of proposals. A distinction is made between a proposal and a document or set of documents that describe the proposal.   Instances of the class :Proposal correspond to the action of making or submitting a proposal.  The wdrs:describedby property may be used to relate a proposal to one or more documents that describe the proposal that is made. The property community:community may be used to relate a proposal to a community to which the proposal is relevant.
+The class of proposals. A distinction is made between a proposal and a document or set of documents that describe the proposal.   Instances of the class :Proposal correspond to the abstract concept of 'what is proposed'.  The wdrs:describedby property may be used to relate a proposal to one or more documents that describe the proposal that is made. The property community:community may be used to relate a proposal to a community to which the proposal is relevant.  The property :relatedProposal may be used to relate a proposal to another, for example, to relate a proposal to one that was suggested by another agent.
 </FONT></TD></TR></TABLE>
 </DD>
 </DL>
@@ -62,7 +62,19 @@ impact:mitigates min 0
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
 <IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-wdrs:describedby min 0
+project:proposedTo min 1
+</FONT></TD></TR></TABLE>
+</DD>
+<DD>
+<TABLE><TR><TD VALIGN="TOP">
+<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
+wdsr:describedby min 0
+</FONT></TD></TR></TABLE>
+</DD>
+<DD>
+<TABLE><TR><TD VALIGN="TOP">
+<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
+project:proposedBy min 0
 </FONT></TD></TR></TABLE>
 </DD>
 <DD>
@@ -92,18 +104,6 @@ project:proposalStatus exactly 1
 <DD>
 <TABLE><TR><TD VALIGN="TOP">
 <IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-project:proposedBy min 0
-</FONT></TD></TR></TABLE>
-</DD>
-<DD>
-<TABLE><TR><TD VALIGN="TOP">
-<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
-project:proposedTo min 1
-</FONT></TD></TR></TABLE>
-</DD>
-<DD>
-<TABLE><TR><TD VALIGN="TOP">
-<IMG border="0" src="icons/OWLMinCardinality.greyed.gif" width="16" height="16"></TD><TD><FONT size="-1">
 dcterms:description min 0
 </FONT></TD></TR></TABLE>
 </DD>
@@ -115,7 +115,7 @@ dcterms:description min 0
 <B>References</B></FONT></TH>
 </TR>
 <TR><TD><FONT size="-1"><UL>
-<LI>as rdfs:domain (project:proposedTo,&nbsp;project:proposedBy,&nbsp;project:proposalStatus,&nbsp;project:proposalDate)</LI><LI>as rdfs:range (project:proposal)</LI></UL></FONT></TABLE><P>
+<LI>as rdfs:domain (project:proposedTo,&nbsp;project:proposedBy,&nbsp;project:proposalStatus,&nbsp;project:proposalDate)</LI><LI>as rdfs:range (project:relatedProposal,&nbsp;project:proposal)</LI></UL></FONT></TABLE><P>
 </FONT>
 <P align="right"><FONT size="-1" face="Verdana, Helvetica, sans-serif">Generated with <A href="http://www.topbraidcomposer.org" target="_top">TopBraid Composer</A>
  by <A href="http://www.topquadrant.com" target="_top">TopQuadrant, Inc.</A></P>
