@@ -19,8 +19,9 @@
     wdrs       : http://www.w3.org/2007/05/powder-s#
     
   templates : 
-   - name                            : proposal
-     "@id"                           : <{$base}{identifier}>
+   - name                       : current_version
+     "@id"                      : <{{ if (version == null) { return "" ; } else { return null } }}{$base}{identifier}>
+     <version:date>             : "{version_date}^^xsd:date"
      <rdf:type>                      : <project:Proposal>
      <rdfs:label>                    : "{name}@en"
      <dcterms:description>           : "{description}@en"
@@ -45,7 +46,44 @@
      <project:requestsResourcesFrom> : <{$base}{resource_source}>
      ^<project:hasResourceRequest>   : <{$base}{resource_source}>
      <project:proposalStatus>        : <project:proposal-status/{status}>
+     <project:relatedProposal>       : <{$base}{related_to}>
      <owl:sameAs>                    : <{same_as}>
+     
+     
+   - name                       : version
+     "@id"                      : <{$base}{identifier}/ver/{version}>
+     <dcterms:isVersionOf>      : <{$base}{identifier}>
+     ^<dcterms:hasVersion>      : <{$base}{identifier}>
+     <version:date>             : "{version_date}^^xsd:date"
+     <rdf:type>                 : 
+                                  -  <project:Proposal> 
+                                  - <version:Version>
+     <version:identifier>       : "{ { version.asString()} }" 
+     <rdfs:label>                    : "{name}@en"
+     <dcterms:description>           : "{description}@en"
+     <wdrs:describedBy>         : |
+       <{ { 
+         if ( reference != null) {
+           if (reference_section == null) {
+             if (reference_version == null) {
+                 return $base.value.concat(reference.value.toString())
+             } else {
+               return $base.value.concat(reference.value.toString()).concat('/ver/').concat(reference_version.value.toString())
+             }
+           } else {
+             return $row.bnode ;
+           }
+         }
+       } }>
+     <project:proposedBy>            : <{$base}{proposed_by}>
+     <project:proposedTo>            : <{$base}{proposed_to}>
+     <community:community>           : <{$base}{community}>
+     <impact:mitigates>              : <{$base}{mitigates}>
+     <project:requestsResourcesFrom> : <{$base}{resource_source}>
+     ^<project:hasResourceRequest>   : <{$base}{resource_source}>
+     <project:proposalStatus>        : <project:proposal-status/{status}>
+     <project:relatedProposal>       : <{$base}{related_to}>
+     <owl:sameAs>                    : <{same_as}> 
      
    - name                  : sameAs
      "@id"                 : <{same_as}>
@@ -69,5 +107,4 @@
              }
        } }>
      <dcterms:identifier>       : "{reference_section}"
-     
-
+  

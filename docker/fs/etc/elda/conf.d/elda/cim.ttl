@@ -415,7 +415,10 @@ spec:proposals
             rdfs:comment       "Lists proposals";
             api:exampleRequestPath  "/doc/proposal";
             api:selector [
-                api:where   "{ ?item  a project:Proposal }";
+                api:where   """{
+                                 ?item  a project:Proposal .
+                                 FILTER NOT EXISTS { ?item a version:Version . }
+                               }""";
                 api:orderBy "STR(?item)"; 
             ];
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
@@ -429,8 +432,46 @@ spec:proposal
             api:uriTemplate    "/doc/proposal/{id}";
             api:name           "proposal";
             rdfs:comment       "Returns data for a proposal";
-            api:exampleRequestPath  "/doc/proposal/proposal-1";
+            api:exampleRequestPath  "/doc/proposal/1";
             api:itemTemplate   "http://data.sedgemoor.gov.uk/id/proposal/{id}" ;      
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:proposalViewer ;
+            api:defaultViewer   spec:proposalViewer;         
+            .
+            
+
+spec:api    api:endpoint       spec:proposalVersions .
+spec:proposalVersions
+            a                  api:ListEndpoint ;
+            api:uriTemplate    "/doc/proposal/{id}/ver";
+            api:name           "proposal versions";
+            rdfs:comment       "Lists available versions of a proposal";
+            api:exampleRequestPath  "/doc/proposal/1/ver";
+            api:variable [
+                api:name "perdurant"
+              ; api:value "http://data.sedgemoor.gov.uk/id/proposal/{id}"
+              ; api:type rdfs:Resource
+            ] ;
+            api:selector [
+                api:where  """{ ?item  a impact:Proposal 
+                                   ;   dcterms:isVersionOf ?perdurant
+                                   .
+                              }""";
+                api:orderBy "STR(?item)"; 
+            ];
+            api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
+            api:viewer          spec:proposalViewer ;
+            api:defaultViewer   spec:proposalViewer;         
+            . 
+
+spec:api    api:endpoint       spec:proposalVersion .
+spec:proposalVersion
+            a                  api:ItemEndpoint ;
+            api:uriTemplate    "/doc/proposal/{id}/ver/{ver}";
+            api:name           "proposalVersion";
+            rdfs:comment       "Returns data for a version of a proposal";
+            api:exampleRequestPath  "/doc/proposal/proposal-1/ver/1";
+            api:itemTemplate   "http://data.sedgemoor.gov.uk/id/proposal/{id}/ver/{ver}" ;      
             api:viewer          api:basicViewer, api:describeViewer, api:labelledDescribeViewer;
             api:viewer          spec:proposalViewer ;
             api:defaultViewer   spec:proposalViewer;         
