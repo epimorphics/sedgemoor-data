@@ -101,7 +101,7 @@ project:Project
 .
 project:Proposal
   rdf:type owl:Class ;
-  rdfs:comment "The class of proposals. A distinction is made between a proposal and a document or set of documents that describe the proposal.   Instances of the class :Proposal correspond to the action of making or submitting a proposal.  The wdrs:describedby property may be used to relate a proposal to one or more documents that describe the proposal that is made. The property community:community may be used to relate a proposal to a community to which the proposal is relevant."@en ;
+  rdfs:comment "The class of proposals. A distinction is made between a proposal and a document or set of documents that describe the proposal.   Instances of the class :Proposal correspond to the abstract concept of 'what is proposed'.  The wdrs:describedby property may be used to relate a proposal to one or more documents that describe the proposal that is made. The property community:community may be used to relate a proposal to a community to which the proposal is relevant.  The property :relatedProposal may be used to relate a proposal to another, for example, to relate a proposal to one that was suggested by another agent."@en ;
   rdfs:label "Proposal"@en ;
   rdfs:subClassOf owl:Thing ;
   rdfs:subClassOf [
@@ -260,10 +260,22 @@ project:proposal-status
   rdfs:label "Status accepted"@en ;
   skos:topConceptOf project:proposal-status ;
 .
+<http://data.sedgemoor.gov.uk/def/project/proposal-status/proposed>
+  rdf:type project:ProposalStatus ;
+  rdfs:comment "The status of being proposed."@en ;
+  rdfs:label "proposed"@en ;
+  skos:topConceptOf project:proposal-status ;
+.
 <http://data.sedgemoor.gov.uk/def/project/proposal-status/rejected>
   rdf:type project:ProposalStatus ;
   rdfs:comment "The status of being rejected."@en ;
   rdfs:label "rejected"@en ;
+  skos:topConceptOf project:proposal-status ;
+.
+<http://data.sedgemoor.gov.uk/def/project/proposal-status/suggested>
+  rdf:type project:ProposalStatus ;
+  rdfs:comment "The status of being suggested."@en ;
+  rdfs:label "suggested"@en ;
   skos:topConceptOf project:proposal-status ;
 .
 project:proposalDate
@@ -293,6 +305,13 @@ project:proposedTo
   rdfs:domain project:Proposal ;
   rdfs:label "proposed to"@en ;
   rdfs:range <http://xmlns.com/foaf/0.1/Agent> ;
+.
+project:relatedProposal
+  rdf:type owl:ObjectProperty ;
+  rdfs:comment "The propery :relatedProposal is a general purpose property that may be used to related a resource to a proposal."@en ;
+  rdfs:domain rdfs:Resource ;
+  rdfs:label "related proposal"@en ;
+  rdfs:range project:Proposal ;
 .
 project:requestsResourcesFrom
   rdf:type owl:ObjectProperty ;
