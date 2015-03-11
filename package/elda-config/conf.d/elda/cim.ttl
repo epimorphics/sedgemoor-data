@@ -84,7 +84,8 @@ spec:XmlFormatter
     a api:XsltFormatter ;
     api:name "xml" ;
     api:mimeType "application/xml" ;
-    elda:metadataOptions "bindings,versions,execution,formats";  
+#    elda:metadataOptions "bindings,versions,execution,formats";  
+    elda:metadataOptions "";  
 # note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/xml-result.xsl
     api:stylesheet "$APACHE_ROOT/lda-assets/xslt/xml-result.xsl" ; 
     .

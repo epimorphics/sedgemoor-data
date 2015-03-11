@@ -39,7 +39,6 @@
 ## Epimorphics LDA extensions vocabulary
 ##
 @prefix elda:			  <http://www.epimorphics.com/vocabularies/lda#> .
-
 <http://localhost:3030/cim/query> elda:supportsNestedSelect true.
 
 spec:api
@@ -84,7 +83,8 @@ spec:XmlFormatter
     a api:XsltFormatter ;
     api:name "xml" ;
     api:mimeType "application/xml" ;
-    elda:metadataOptions "bindings,versions,execution,formats";  
+#    elda:metadataOptions "bindings,versions,execution,formats";  
+    elda:metadataOptions "";  
 # note that on Windows file: URLs are written as file:///C:/var/www/data.sedgemoor.gov.uk/html/elda-assets/xslt/xml-result.xsl
     api:stylesheet "/var/www/data.sedgemoor.gov.uk/html/lda-assets/xslt/xml-result.xsl" ; 
     .
@@ -369,8 +369,6 @@ spec:predictionViewer
             api:name          "normal" ;
             api:properties    "*,versionIdentifier,versionDate,hasVersion.versionIdentifier,hasVersion.label,hasVersion.versionDate,describedBy.isPartOf.label,describedBy.identifier,predictor.label,sameAs.label,describedBy.label,influencedBy.label,influences.label" ;
             .  
-                       
-
                        
 spec:api    api:endpoint       spec:projects .
 spec:projects
